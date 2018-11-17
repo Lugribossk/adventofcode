@@ -1,9 +1,22 @@
-import * as fs from "fs";
-import * as path from "path";
 import * as prettier from "prettier";
-import {Instruction} from "./core";
-import {Copy, Decrement, Increment, JumpNotZero} from "./instructions";
-import {parseProgram} from "./parser";
+import {Instruction, isConstant} from "./core";
+import {Copy, Decrement, Increment, JumpNotZero, NoOp} from "./instructions";
+import {Add, Multiply} from "./optimizer";
+
+const jumpTargets = (instructions: ReadonlyArray<Instruction>): (i: number) => boolean => {
+    const targets = new Set([0]);
+    for (let i = 0; i < instructions.length; i++) {
+        const instruction = instructions[i];
+        if (instruction instanceof JumpNotZero) {
+            if (isConstant(instruction.y)) {
+                targets.add(i + instruction.y);
+            } else {
+                return () => true;
+            }
+        }
+    }
+    return (i: number) => targets.has(i);
+};
 
 const transpileInstruction = (instruction: Instruction, index: number): string => {
     if (instruction instanceof Copy) {
@@ -16,8 +29,8 @@ const transpileInstruction = (instruction: Instruction, index: number): string =
         return `${instruction.x}--;`;
     }
     if (instruction instanceof JumpNotZero) {
-        const target = typeof instruction.y === "number" ? `${index + instruction.y}` : `${index} + ${instruction.y}`;
-        if (typeof instruction.x === "number" && instruction.x !== 0) {
+        const target = isConstant(instruction.y) ? `${index + instruction.y}` : `${index} + ${instruction.y}`;
+        if (isConstant(instruction.x) && instruction.x !== 0) {
             return `
                 jump = ${target};
                 continue;`;
@@ -29,10 +42,23 @@ const transpileInstruction = (instruction: Instruction, index: number): string =
                 continue;
             }`;
     }
-    return "throw new Error('Not supported')";
+    if (instruction instanceof NoOp) {
+        return "";
+    }
+    if (instruction instanceof Add) {
+        return `${instruction.y} += ${instruction.x};`;
+    }
+    if (instruction instanceof Multiply) {
+        return `${instruction.y} *= ${instruction.x};`;
+    }
+    throw new Error(`${instruction.constructor.name} not supported`);
 };
 
-export const transpile = (program: Instruction[]): string => {
+/**
+ * Transpile the specified program into equivalent Javascript code.
+ */
+export const transpile = (program: ReadonlyArray<Instruction>): string => {
+    const isJumpTarget = jumpTargets(program);
     const source = `
         const run = (a, b, c, d) => {
             let jump = 0;
@@ -40,15 +66,18 @@ export const transpile = (program: Instruction[]): string => {
                 switch (jump) {
                     ${program
                         .map((instruction, i) => {
+                            if (!isJumpTarget(i)) {
+                                return transpileInstruction(instruction, i);
+                            }
                             return `
-                            case ${i}:
-                                ${transpileInstruction(instruction, i)}`;
+                                case ${i}:
+                                    ${transpileInstruction(instruction, i)}`;
                         })
                         .join("")}
+                     default:
+                        return {a, b, c, d};
                 }
-                break;
             }
-            return {a: a, b: b, c: c, d: d};
         };
         module.exports = run;`;
 
@@ -56,25 +85,4 @@ export const transpile = (program: Instruction[]): string => {
         parser: "babylon",
         ...prettier.resolveConfig.sync(__dirname)
     });
-};
-
-export const transpileAndSave = (file: string): string => {
-    const program = parseProgram(fs.readFileSync(file, "utf8"));
-    const script = transpile(program);
-
-    const filename = path.join(__dirname, `../../../target/${path.basename(file)}.js`);
-    fs.writeFileSync(filename, script, "utf8");
-
-    return filename;
-};
-
-export const transpileAndRun = (file: string, a = 0, b = 0, c = 0, d = 0) => {
-    const name = transpileAndSave(file);
-    const run = require(name);
-
-    const start = Date.now();
-    const finalRegisters = run(a, b, c, d);
-    console.log(`Executed in ${Date.now() - start}ms.`);
-
-    console.log("Done, final registers:", finalRegisters);
 };

@@ -1,6 +1,5 @@
-import {Constant, Register, Instruction, runProgram} from "./core";
+import {Constant, Register, Instruction} from "./core";
 import {Copy, Decrement, Increment, JumpNotZero, Toggle} from "./instructions";
-import * as fs from "fs";
 
 const parseConstant = (input?: string): Constant => {
     if (!input) {
@@ -72,7 +71,10 @@ const parseToggle = (inst?: string, x?: string) => {
     return undefined;
 };
 
-export const parseProgram = (input: string): Instruction[] => {
+/**
+ * Parse the text representation of a program into an abstract syntax object representation.
+ */
+export const parse = (input: string): ReadonlyArray<Instruction> => {
     return input.split("\r\n").map((line, i) => {
         try {
             const [inst, x, y] = line.split(" ");
@@ -91,20 +93,4 @@ export const parseProgram = (input: string): Instruction[] => {
             throw new Error(`Parse error on line ${i}: ${e.message}`);
         }
     });
-};
-
-export const parseAndRun = (file: string, a = 0, b = 0, c = 0, d = 0) => {
-    const program = parseProgram(fs.readFileSync(file, "utf8"));
-    console.log("Running program with", program.length, "instructions.");
-    const finalState = runProgram({
-        pc: 0,
-        registers: {
-            a: a,
-            b: b,
-            c: c,
-            d: d
-        },
-        program: program
-    });
-    console.log("Done, final registers:", finalState.registers);
 };

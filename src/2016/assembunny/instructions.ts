@@ -1,6 +1,4 @@
-import {Constant, Register, Instruction, State} from "./core";
-
-const getArgValue = (op: Constant | Register, state: State) => (typeof op === "number" ? op : state.registers[op]);
+import {Constant, Register, Instruction, State, isConstant, getArgValue} from "./core";
 
 /**
  * 'cpy x y' copies x (either an integer or the value of a register) into register y.
@@ -92,6 +90,9 @@ export class JumpNotZero implements Instruction {
     }
 }
 
+/**
+ * Do nothing.
+ */
 export class NoOp implements Instruction {
     readonly reverse: Instruction;
 
@@ -116,14 +117,14 @@ const toggleInstruction = (oldInst: Instruction) => {
             throw new Error(`Two-argument instruction missing first argument: ${oldInst}`);
         }
         if (oldInst instanceof JumpNotZero) {
-            if (typeof y !== "number") {
+            if (!isConstant(y)) {
                 return new Copy(x, y);
             }
             return new NoOp(oldInst);
         }
         return new JumpNotZero(x, y);
     } else if (x !== undefined) {
-        if (typeof x === "number") {
+        if (isConstant(x)) {
             return new NoOp(oldInst);
         }
         if (oldInst instanceof Increment) {
