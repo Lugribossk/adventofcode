@@ -1,5 +1,5 @@
 import {Constant, Register, Instruction} from "./core";
-import {Copy, Decrement, Increment, JumpNotZero, Toggle} from "./instructions";
+import {Copy, Decrement, Increment, JumpNotZero, Output, Toggle} from "./instructions";
 
 const parseConstant = (input?: string): Constant => {
     if (!input) {
@@ -40,45 +40,54 @@ const parseCopy = (inst?: string, x?: string, y?: string): Instruction | undefin
     if (inst === "cpy") {
         return new Copy(parseConstantOrRegister(x), parseRegister(y));
     }
-    return undefined;
+    return;
 };
 
 const parseIncrement = (inst?: string, x?: string) => {
     if (inst === "inc") {
         return new Increment(parseRegister(x));
     }
-    return undefined;
+    return;
 };
 
 const parseDecrement = (inst?: string, x?: string) => {
     if (inst === "dec") {
         return new Decrement(parseRegister(x));
     }
-    return undefined;
+    return;
 };
 
 const parseJumpNotZero = (inst?: string, x?: string, y?: string) => {
     if (inst === "jnz") {
         return new JumpNotZero(parseConstantOrRegister(x), parseConstantOrRegister(y));
     }
-    return undefined;
+    return;
 };
 
 const parseToggle = (inst?: string, x?: string) => {
     if (inst === "tgl") {
         return new Toggle(parseConstantOrRegister(x));
     }
-    return undefined;
+    return;
+};
+
+const parseOutput = (inst?: string, x?: string) => {
+    if (inst === "out") {
+        return new Output(parseConstantOrRegister(x));
+    }
+    return;
 };
 
 /**
  * Parse the text representation of a program into an abstract syntax object representation.
  */
 export const parse = (input: string): ReadonlyArray<Instruction> => {
+    const instParsers = [parseCopy, parseIncrement, parseDecrement, parseJumpNotZero, parseToggle, parseOutput];
+
     return input.split("\r\n").map((line, i) => {
         try {
             const [inst, x, y] = line.split(" ");
-            const possibleInst = [parseCopy, parseIncrement, parseDecrement, parseJumpNotZero, parseToggle].reduce(
+            const possibleInst = instParsers.reduce(
                 (
                     prev: Instruction | undefined,
                     current: (inst?: string, x?: string, y?: string) => Instruction | undefined

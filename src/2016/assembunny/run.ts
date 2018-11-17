@@ -11,16 +11,7 @@ export const parseAndRun = (file: string, a = 0, b = 0, c = 0, d = 0) => {
     const optimized = optimize(program);
 
     const start = performance.now();
-    const finalState = runProgram({
-        pc: 0,
-        registers: {
-            a: a,
-            b: b,
-            c: c,
-            d: d
-        },
-        program: optimized
-    });
+    const finalState = runProgram(optimized, a, b, c, d);
 
     console.log(`Ran ${file} in ${performance.now() - start}ms, final registers:`, finalState.registers);
 };

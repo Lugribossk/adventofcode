@@ -170,3 +170,22 @@ export class Toggle implements Instruction {
         };
     }
 }
+
+/**
+ * 'out x' transmits x (either an integer or the value of a register) as the next value for the clock signal.
+ */
+export class Output implements Instruction {
+    readonly x: Constant | Register;
+
+    constructor(x: Constant | Register) {
+        this.x = x;
+    }
+
+    execute(state: State, output: (n: number) => void): State {
+        output(getArgValue(this.x, state));
+        return {
+            ...state,
+            pc: state.pc + 1
+        };
+    }
+}

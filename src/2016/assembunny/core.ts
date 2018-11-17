@@ -10,7 +10,7 @@ export type Register = "a" | "b" | "c" | "d";
 export interface Instruction {
     x?: Constant | Register;
     y?: Constant | Register;
-    execute(state: State): State;
+    execute(state: State, output: (n: number) => void): State;
 }
 
 export type State = Readonly<{
@@ -23,9 +23,19 @@ export const isConstant = (arg: Constant | Register): arg is Constant => typeof 
 
 export const getArgValue = (arg: Constant | Register, state: State) => (isConstant(arg) ? arg : state.registers[arg]);
 
-export const runProgram = (state: State) => {
+export const runProgram = (program: ReadonlyArray<Instruction>, a = 0, b = 0, c = 0, d = 0, output = console.log) => {
+    let state: State = {
+        pc: 0,
+        registers: {
+            a: a,
+            b: b,
+            c: c,
+            d: d
+        },
+        program: program
+    };
     while (state.pc >= 0 && state.pc < state.program.length) {
-        state = state.program[state.pc].execute(state);
+        state = state.program[state.pc].execute(state, output);
     }
     return state;
 };

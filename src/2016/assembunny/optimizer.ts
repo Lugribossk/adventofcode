@@ -1,4 +1,4 @@
-import {Constant, getArgValue, Instruction, Register, State} from "./core";
+import {Constant, getArgValue, Instruction, isConstant, Register, State} from "./core";
 import {Copy, Decrement, Increment, JumpNotZero, NoOp} from "./instructions";
 
 const replace = <T>(array: ReadonlyArray<T>, index: number, newItems: ReadonlyArray<T>) => {
@@ -55,6 +55,26 @@ export class Multiply implements Instruction {
     }
 }
 
+/**
+ * The opposite of JumpNotZero, jumps to an instruction y away but only if x **is** zero.
+ */
+export class JumpZero implements Instruction {
+    readonly x: Constant | Register;
+    readonly y: Constant | Register;
+
+    constructor(x: Constant | Register, y: Constant | Register) {
+        this.x = x;
+        this.y = y;
+    }
+
+    execute(state: State) {
+        return {
+            ...state,
+            pc: state.pc + (getArgValue(this.x, state) === 0 ? getArgValue(this.y, state) : 1)
+        };
+    }
+}
+
 const optimizeAdd = (a: Instruction, b: Instruction, c: Instruction) => {
     if (
         a instanceof Increment &&
@@ -87,6 +107,20 @@ const optimizeMultiply = (a: Instruction, b: Instruction, c: Instruction, d: Ins
     return;
 };
 
+const optimizeJumpZero = (a: Instruction, b: Instruction) => {
+    if (a instanceof JumpNotZero && b instanceof JumpNotZero && a.y === 2 && isConstant(b.x) && b.x !== 0) {
+        return [new NoOp(), new JumpZero(a.x, b.y)];
+    }
+    return;
+};
+
+const optimizeNeverJump = (a: Instruction) => {
+    if (a instanceof JumpNotZero && isConstant(a.x) && a.x === 0) {
+        return [new NoOp()];
+    }
+    return;
+};
+
 /**
  * Generate a new version of the specified program that runs faster but produces the same result.
  */
@@ -96,10 +130,15 @@ export const optimize = (program: ReadonlyArray<Instruction>): ReadonlyArray<Ins
     // So the only solution seems to be something where jumping to/toggling an instruction that was involved in an optimization immediately reverts that optimization.
     // Fortunately the test inputs do not exhibit this behavior so we can skip this for now.
 
+    const optimizations = [optimizeMultiply, optimizeAdd, optimizeJumpZero, optimizeNeverJump];
+
     for (let i = 0; i < program.length; i++) {
-        const optimized =
-            optimizeMultiply(program[i], program[i + 1], program[i + 2], program[i + 3], program[i + 4]) ||
-            optimizeAdd(program[i], program[i + 1], program[i + 2]);
+        const optimized = optimizations.reduce(
+            (prev: Instruction[] | undefined, current: (...args: Instruction[]) => Instruction[] | undefined) =>
+                prev || current(...program.slice(i)),
+            undefined
+        );
+
         if (optimized) {
             program = replace(program, i, optimized);
         }

@@ -1,15 +1,19 @@
 import * as prettier from "prettier";
 import {Instruction, isConstant} from "./core";
-import {Copy, Decrement, Increment, JumpNotZero, NoOp} from "./instructions";
-import {Add, Multiply} from "./optimizer";
+import {Copy, Decrement, Increment, JumpNotZero, NoOp, Output} from "./instructions";
+import {Add, JumpZero, Multiply} from "./optimizer";
 
-const jumpTargets = (instructions: ReadonlyArray<Instruction>): (i: number) => boolean => {
+/**
+ * Returns a function that determines whether an instruction is potentially the target for a jump.
+ */
+const jumpTargets = (program: ReadonlyArray<Instruction>): ((i: number) => boolean) => {
+    // We need to "jump" to the first instruction to start the program, so 0 is always a target.
     const targets = new Set([0]);
-    for (let i = 0; i < instructions.length; i++) {
-        const instruction = instructions[i];
-        if (instruction instanceof JumpNotZero) {
-            if (isConstant(instruction.y)) {
-                targets.add(i + instruction.y);
+    for (let i = 0; i < program.length; i++) {
+        const inst = program[i];
+        if (inst instanceof JumpNotZero || inst instanceof JumpZero) {
+            if (isConstant(inst.y)) {
+                targets.add(i + inst.y);
             } else {
                 return () => true;
             }
@@ -18,40 +22,53 @@ const jumpTargets = (instructions: ReadonlyArray<Instruction>): (i: number) => b
     return (i: number) => targets.has(i);
 };
 
-const transpileInstruction = (instruction: Instruction, index: number): string => {
-    if (instruction instanceof Copy) {
-        return `${instruction.y} = ${instruction.x};`;
+const transpileInstruction = (inst: Instruction, index: number): string => {
+    // TODO It's kinda inconsistent that each instruction has to be listed in here for transpilation,
+    // while it is a method on each instruction type for in-memory running. They should either both be methods or both be like this?
+    if (inst instanceof Copy) {
+        return `${inst.y} = ${inst.x};`;
     }
-    if (instruction instanceof Increment) {
-        return `${instruction.x}++;`;
+    if (inst instanceof Increment) {
+        return `${inst.x}++;`;
     }
-    if (instruction instanceof Decrement) {
-        return `${instruction.x}--;`;
+    if (inst instanceof Decrement) {
+        return `${inst.x}--;`;
     }
-    if (instruction instanceof JumpNotZero) {
-        const target = isConstant(instruction.y) ? `${index + instruction.y}` : `${index} + ${instruction.y}`;
-        if (isConstant(instruction.x) && instruction.x !== 0) {
+    if (inst instanceof JumpNotZero) {
+        const target = isConstant(inst.y) ? `${index + inst.y}` : `${index} + ${inst.y}`;
+        if (isConstant(inst.x) && inst.x !== 0) {
             return `
                 jump = ${target};
                 continue;`;
         }
 
         return `
-            if (${instruction.x} !== 0) {
+            if (${inst.x} !== 0) {
                 jump = ${target};
                 continue;
             }`;
     }
-    if (instruction instanceof NoOp) {
+    if (inst instanceof NoOp) {
         return "";
     }
-    if (instruction instanceof Add) {
-        return `${instruction.y} += ${instruction.x};`;
+    if (inst instanceof Output) {
+        return `output(${inst.x});`;
     }
-    if (instruction instanceof Multiply) {
-        return `${instruction.y} *= ${instruction.x};`;
+    if (inst instanceof Add) {
+        return `${inst.y} += ${inst.x};`;
     }
-    throw new Error(`${instruction.constructor.name} not supported`);
+    if (inst instanceof Multiply) {
+        return `${inst.y} *= ${inst.x};`;
+    }
+    if (inst instanceof JumpZero) {
+        const target = isConstant(inst.y) ? `${index + inst.y}` : `${index} + ${inst.y}`;
+        return `
+            if (${inst.x} === 0) {
+                jump = ${target};
+                continue;
+            }`;
+    }
+    throw new Error(`${inst.constructor.name} not supported`);
 };
 
 /**
@@ -60,18 +77,18 @@ const transpileInstruction = (instruction: Instruction, index: number): string =
 export const transpile = (program: ReadonlyArray<Instruction>): string => {
     const isJumpTarget = jumpTargets(program);
     const source = `
-        const run = (a, b, c, d) => {
+        const run = (a = 0, b = 0, c = 0, d = 0, output = console.log) => {
             let jump = 0;
             while (true) {
                 switch (jump) {
                     ${program
-                        .map((instruction, i) => {
+                        .map((inst, i) => {
                             if (!isJumpTarget(i)) {
-                                return transpileInstruction(instruction, i);
+                                return transpileInstruction(inst, i);
                             }
                             return `
                                 case ${i}:
-                                    ${transpileInstruction(instruction, i)}`;
+                                    ${transpileInstruction(inst, i)}`;
                         })
                         .join("")}
                      default:
