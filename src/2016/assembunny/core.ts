@@ -4,11 +4,9 @@ export type Register = "a" | "b" | "c" | "d";
 
 export type State = Readonly<{
     pc: number;
-    registers: {
-        readonly [key in Register]: number;
-    };
+    registers: {readonly [key in Register]: number};
     program: ReadonlyArray<Instruction>;
-}>
+}>;
 
 export interface Instruction {
     x?: Constant | Register;
@@ -24,6 +22,6 @@ export const runProgram = (initialState: State) => {
         state = state.program[state.pc].execute(state);
         count++;
     }
-    console.log("Executed " + count + " instructions in " + (Date.now() - start) + "ms.")
+    console.log(`Executed ${count} instructions in ${Date.now() - start}ms.`);
     return state;
 };

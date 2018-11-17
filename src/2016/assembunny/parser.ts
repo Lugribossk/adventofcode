@@ -10,7 +10,7 @@ const parseConstant = (input?: string): Constant => {
     if (!Number.isNaN(maybe)) {
         return maybe;
     }
-    throw new Error("Not a constant: '" + input + "'");
+    throw new Error(`Not a constant: '${input}'`);
 };
 
 const parseRegister = (input?: string): Register => {
@@ -34,7 +34,7 @@ const parseConstantOrRegister = (input?: string): Constant | Register => {
     if (!Number.isNaN(maybe)) {
         return maybe;
     }
-    throw new Error("Not a constant or register: '" + input + "'");
+    throw new Error(`Not a constant or register: '${input}'`);
 };
 
 const parseCopy = (inst?: string, x?: string, y?: string): Instruction | undefined => {
@@ -60,7 +60,7 @@ const parseDecrement = (inst?: string, x?: string) => {
 
 const parseJumpNotZero = (inst?: string, x?: string, y?: string) => {
     if (inst === "jnz") {
-        return new JumpNotZero(parseConstantOrRegister(x), parseConstantOrRegister(y))
+        return new JumpNotZero(parseConstantOrRegister(x), parseConstantOrRegister(y));
     }
     return undefined;
 };
@@ -73,25 +73,29 @@ const parseToggle = (inst?: string, x?: string) => {
 };
 
 export const parseProgram = (input: string): Instruction[] => {
-    return input.split("\r\n")
-        .map((line, i) => {
-            try {
-                const [inst, x, y] = line.split(" ");
-                const possibleInst = [parseCopy, parseIncrement, parseDecrement, parseJumpNotZero, parseToggle]
-                    .reduce((prev: Instruction | undefined, current: (inst?: string, x?: string, y?: string) => (Instruction | undefined)) => prev || current(inst, x, y), undefined);
-                if (!possibleInst) {
-                    throw new Error("Unknown instruction: " + inst);
-                }
-                return possibleInst;
-            } catch (e) {
-                throw new Error("Parse error on line " + i + ": " + e.message);
+    return input.split("\r\n").map((line, i) => {
+        try {
+            const [inst, x, y] = line.split(" ");
+            const possibleInst = [parseCopy, parseIncrement, parseDecrement, parseJumpNotZero, parseToggle].reduce(
+                (
+                    prev: Instruction | undefined,
+                    current: (inst?: string, x?: string, y?: string) => Instruction | undefined
+                ) => prev || current(inst, x, y),
+                undefined
+            );
+            if (!possibleInst) {
+                throw new Error(`Unknown instruction: ${inst}`);
             }
-        });
+            return possibleInst;
+        } catch (e) {
+            throw new Error(`Parse error on line ${i}: ${e.message}`);
+        }
+    });
 };
 
 export const parseAndRun = (file: string, a = 0, b = 0, c = 0, d = 0) => {
-    const instructions = parseProgram(fs.readFileSync(file, "utf8"));
-    console.log("Running program with", instructions.length, "instructions.");
+    const program = parseProgram(fs.readFileSync(file, "utf8"));
+    console.log("Running program with", program.length, "instructions.");
     const finalState = runProgram({
         pc: 0,
         registers: {
@@ -100,7 +104,7 @@ export const parseAndRun = (file: string, a = 0, b = 0, c = 0, d = 0) => {
             c: c,
             d: d
         },
-        program: instructions
+        program: program
     });
     console.log("Done, final registers:", finalState.registers);
 };

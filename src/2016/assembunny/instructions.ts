@@ -1,7 +1,10 @@
 import {Constant, Register, Instruction, State} from "./core";
 
-const getArgValue = (op: Constant | Register, state: State) => typeof op === "number" ? op : state.registers[op];
+const getArgValue = (op: Constant | Register, state: State) => (typeof op === "number" ? op : state.registers[op]);
 
+/**
+ * 'cpy x y' copies x (either an integer or the value of a register) into register y.
+ */
 export class Copy implements Instruction {
     readonly x: Constant | Register;
     readonly y: Register;
@@ -19,10 +22,13 @@ export class Copy implements Instruction {
                 ...state.registers,
                 [this.y]: getArgValue(this.x, state)
             }
-        }
+        };
     }
 }
 
+/**
+ * 'inc x' increases the value of register x by one.
+ */
 export class Increment implements Instruction {
     readonly x: Register;
 
@@ -38,10 +44,13 @@ export class Increment implements Instruction {
                 ...state.registers,
                 [this.x]: getArgValue(this.x, state) + 1
             }
-        }
+        };
     }
 }
 
+/**
+ * 'dec x' decreases the value of register x by one.
+ */
 export class Decrement implements Instruction {
     readonly x: Register;
 
@@ -57,10 +66,15 @@ export class Decrement implements Instruction {
                 ...state.registers,
                 [this.x]: getArgValue(this.x, state) - 1
             }
-        }
+        };
     }
 }
 
+/**
+ * 'jnz x y' jumps to an instruction y away (positive means forward; negative means backward), but only if x is not zero.
+ * The jnz instruction moves relative to itself: an offset of -1 would continue at the previous instruction, while an
+ * offset of 2 would skip over the next instruction.
+ */
 export class JumpNotZero implements Instruction {
     readonly x: Constant | Register;
     readonly y: Constant | Register;
@@ -74,7 +88,7 @@ export class JumpNotZero implements Instruction {
         return {
             ...state,
             pc: state.pc + (getArgValue(this.x, state) !== 0 ? getArgValue(this.y, state) : 1)
-        }
+        };
     }
 }
 
@@ -99,7 +113,7 @@ const toggleInstruction = (oldInst: Instruction) => {
         return oldInst.reverse;
     } else if (y !== undefined) {
         if (x === undefined) {
-            throw new Error("Two-argument instruction missing first argument: " + oldInst);
+            throw new Error(`Two-argument instruction missing first argument: ${oldInst}`);
         }
         if (oldInst instanceof JumpNotZero) {
             if (typeof y !== "number") {
@@ -113,13 +127,22 @@ const toggleInstruction = (oldInst: Instruction) => {
             return new NoOp(oldInst);
         }
         if (oldInst instanceof Increment) {
-            return new Decrement(x)
+            return new Decrement(x);
         }
         return new Increment(x);
     }
     return new NoOp(oldInst);
 };
 
+/**
+ * 'tgl x' toggles the instruction x away (pointing at instructions like jnz does: positive means forward; negative means backward):
+ * For one-argument instructions, inc becomes dec, and all other one-argument instructions become inc.
+ * For two-argument instructions, jnz becomes cpy, and all other two-instructions become jnz.
+ * The arguments of a toggled instruction are not affected.
+ * If an attempt is made to toggle an instruction outside the program, nothing happens.
+ * If toggling produces an invalid instruction (like cpy 1 2) and an attempt is later made to execute that instruction, skip it instead.
+ * If tgl toggles itself (for example, if a is 0, tgl a would target itself and become inc a), the resulting instruction is not executed until the next time it is reached.
+ */
 export class Toggle implements Instruction {
     readonly x: Constant | Register;
 
@@ -133,7 +156,7 @@ export class Toggle implements Instruction {
             return {
                 ...state,
                 pc: state.pc + 1
-            }
+            };
         }
         const oldInst = state.program[target];
 
@@ -143,8 +166,6 @@ export class Toggle implements Instruction {
             ...state,
             pc: state.pc + 1,
             program: newProgram
-        }
+        };
     }
 }
-
-
