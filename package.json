@@ -3,7 +3,11 @@
     "version": "0.0.1",
     "private": true,
     "engines": {
-        "node": ">= 10.4.0"
+        "node": ">= 10.13.0"
+    },
+    "scripts": {
+        "prettier:fix": "prettier --write \"{src,test}/**/*.{ts,tsx,json}\"",
+        "prettier:check": "prettier --list-different \"{src,test}/**/*.{ts,tsx,json}\""
     },
     "dependencies": {
         "prettier": "1.15.2",

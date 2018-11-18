@@ -1,10 +1,12 @@
 import * as path from "path";
 import {parseAndRun, transpileAndRun} from "./assembunny/run";
 
-parseAndRun(path.resolve(__dirname, "12.txt"));
+const file = path.resolve(__dirname, "12.txt");
 
-transpileAndRun(path.resolve(__dirname, "12.txt"));
+parseAndRun(file);
 
-parseAndRun(path.resolve(__dirname, "12.txt"), 0, 0, 1);
+transpileAndRun(file);
 
-transpileAndRun(path.resolve(__dirname, "12.txt"), 0, 0, 1);
+parseAndRun(file, 0, 0, 1);
+
+transpileAndRun(file, 0, 0, 1);

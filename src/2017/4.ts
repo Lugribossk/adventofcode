@@ -1,17 +1,13 @@
 import * as fs from "fs";
 import * as path from "path";
 
-interface Dictionary<T> {
-    [key: string]: T;
-}
-
 const noDuplicates = (input: string[]) => {
-    const words: Dictionary<boolean> = {};
+    const words = new Set<string>();
     const valid = input.map(word => {
-        if (words[word]) {
+        if (words.has(word)) {
             return false;
         }
-        words[word] = true;
+        words.add(word);
         return true;
     });
     return valid.every(n => n);
@@ -24,25 +20,25 @@ const canonicalize = (input: string) => {
 };
 
 const noAnagrams = (input: string[]) => {
-    const words: Dictionary<boolean> = {};
+    const words = new Set<string>();
     const valid = input.map(word => {
         const canonical = canonicalize(word);
-        if (words[canonical]) {
+        if (words.has(canonical)) {
             return false;
         }
-        words[canonical] = true;
+        words.add(canonical);
         return true;
     });
     return valid.every(n => n);
 };
 
-const run = (file: string, callback: (input: string[]) => boolean) => {
-    const content = fs.readFileSync(file, "utf8");
+const run = (content: string, filter: (input: string[]) => boolean) => {
     const phrases = content.split("\r\n").map(n => n.split(" "));
-    const valid = phrases.map(callback);
-    console.log(valid.filter(n => n).length);
+    console.log(phrases.filter(filter).length);
 };
 
-run(path.resolve(__dirname, "4.txt"), noDuplicates);
+const input = fs.readFileSync(path.resolve(__dirname, "4.txt"), "utf8");
 
-run(path.resolve(__dirname, "4.txt"), p => noDuplicates(p) && noAnagrams(p));
+run(input, noDuplicates);
+
+run(input, p => noDuplicates(p) && noAnagrams(p));

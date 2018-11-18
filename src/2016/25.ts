@@ -59,6 +59,8 @@ const findWithTranspile = (file: string) => {
     findAlternatingSequence(run);
 };
 
-findWithRun(path.resolve(__dirname, "25.txt"));
+const file = path.resolve(__dirname, "25.txt");
 
-findWithTranspile(path.resolve(__dirname, "25.txt"));
+findWithRun(file);
+
+findWithTranspile(file);

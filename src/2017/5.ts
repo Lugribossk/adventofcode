@@ -11,8 +11,8 @@ const execute = ({offsets, pc}: State, calculateOffset: (current: number) => num
     newOffsets.splice(pc, 1, calculateOffset(offsets[pc]));
     return {
         offsets: newOffsets,
-        pc: pc + offsets[pc],
-    }
+        pc: pc + offsets[pc]
+    };
 };
 
 const run = (initial: State, calculateOffset: (current: number) => number) => {
@@ -26,15 +26,16 @@ const run = (initial: State, calculateOffset: (current: number) => number) => {
     return state;
 };
 
-const parse = (file: string) => {
-    const content = fs.readFileSync(file, "utf8");
-    const offsets = content.split("\r\n").map(n => parseInt(n, 10));
+const parse = (content: string): State => {
+    const offsets = content.split("\r\n").map(n => parseInt(n));
     return {
         offsets: offsets,
         pc: 0
-    }
+    };
 };
 
-run(parse(path.resolve(__dirname, "5.txt")), n => n + 1);
+const input = fs.readFileSync(path.resolve(__dirname, "5.txt"), "utf8");
 
-run(parse(path.resolve(__dirname, "5.txt")), n => n >= 3 ? n - 1 : n + 1);
+run(parse(input), n => n + 1);
+
+run(parse(input), n => (n >= 3 ? n - 1 : n + 1));

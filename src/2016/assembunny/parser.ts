@@ -19,7 +19,7 @@ const parseRegister = (input?: string): Register => {
     if (input === "a" || input === "b" || input === "c" || input === "d") {
         return input;
     }
-    throw new Error("Not a register: '" + input + "'");
+    throw new Error(`Not a register: '${input}'`);
 };
 
 const parseConstantOrRegister = (input?: string): Constant | Register => {
