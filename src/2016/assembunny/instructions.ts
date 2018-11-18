@@ -108,7 +108,7 @@ export class NoOp implements Instruction {
     }
 }
 
-const toggleInstruction = (oldInst: Instruction) => {
+export const toggleInstruction = (oldInst: Instruction) => {
     const {x, y} = oldInst;
     if (oldInst instanceof NoOp) {
         return oldInst.reverse;

@@ -40,7 +40,7 @@ const findAlternatingSequence = (
         }
     }
 
-    console.log(`Ran in ${performance.now() - start}ms, found alternating sequence for a =`, a);
+    console.log(`Ran in ${(performance.now() - start).toFixed(3)}ms, found alternating sequence for a =`, a);
 };
 
 const findWithRun = (file: string) => {

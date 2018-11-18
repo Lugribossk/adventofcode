@@ -1,25 +1,39 @@
 import * as prettier from "prettier";
 import {Instruction, isConstant} from "./core";
-import {Copy, Decrement, Increment, JumpNotZero, NoOp, Output} from "./instructions";
+import {Copy, Decrement, Increment, JumpNotZero, NoOp, Output, Toggle, toggleInstruction} from "./instructions";
 import {Add, JumpZero, Multiply} from "./optimizer";
 
-/**
- * Returns a function that determines whether an instruction is potentially the target for a jump.
- */
-const jumpTargets = (program: ReadonlyArray<Instruction>): ((i: number) => boolean) => {
+const getJumpTargets = (program: ReadonlyArray<Instruction>): Set<number> => {
     // We need to "jump" to the first instruction to start the program, so 0 is always a target.
     const targets = new Set([0]);
-    for (let i = 0; i < program.length; i++) {
-        const inst = program[i];
+    program.forEach((inst, i) => {
         if (inst instanceof JumpNotZero || inst instanceof JumpZero) {
             if (isConstant(inst.y)) {
                 targets.add(i + inst.y);
             } else {
-                return () => true;
+                for (let j = 0; j < program.length; j++) {
+                    targets.add(j);
+                }
             }
         }
-    }
-    return (i: number) => targets.has(i);
+    });
+    return targets;
+};
+
+const getToggleTargets = (program: ReadonlyArray<Instruction>): Set<number> => {
+    const targets = new Set();
+    program.forEach((inst, i) => {
+        if (inst instanceof Toggle) {
+            if (isConstant(inst.x)) {
+                targets.add(i + inst.x);
+            } else {
+                for (let j = 0; j < program.length; j++) {
+                    targets.add(j);
+                }
+            }
+        }
+    });
+    return targets;
 };
 
 const transpileInstruction = (inst: Instruction, index: number): string => {
@@ -51,6 +65,14 @@ const transpileInstruction = (inst: Instruction, index: number): string => {
     if (inst instanceof NoOp) {
         return "";
     }
+    if (inst instanceof Toggle) {
+        return `
+            if (toggled.has(${index} + ${inst.x})) {
+                toggled.delete(${index} + ${inst.x});
+            } else {
+                toggled.add(${index} + ${inst.x});
+            }`;
+    }
     if (inst instanceof Output) {
         return `output(${inst.x});`;
     }
@@ -75,20 +97,36 @@ const transpileInstruction = (inst: Instruction, index: number): string => {
  * Transpile the specified program into equivalent Javascript code.
  */
 export const transpile = (program: ReadonlyArray<Instruction>): string => {
-    const isJumpTarget = jumpTargets(program);
+    const jumpTargets = getJumpTargets(program);
+    const toggleTargets = getToggleTargets(program);
+
+    // We can use a switch statement to simulate jumping to arbitrary instructions.
+    // The default case is used to handle the "jumping outside the program halts it" behavior so we don't have to check that in each jump instruction.
+    // Continue'ing to labels would not work as the target can change at runtime based on the content of a register.
+
     const source = `
         const run = (a = 0, b = 0, c = 0, d = 0, output = console.log) => {
+            const toggled = new Set();
             let jump = 0;
             while (true) {
                 switch (jump) {
                     ${program
                         .map((inst, i) => {
-                            if (!isJumpTarget(i)) {
-                                return transpileInstruction(inst, i);
+                            let out = transpileInstruction(inst, i);
+                            if (toggleTargets.has(i)) {
+                                out = `
+                                if (!toggled.has(${i})) {
+                                    ${out}
+                                } else {
+                                    ${transpileInstruction(toggleInstruction(inst), i)}
+                                }`;
                             }
-                            return `
-                                case ${i}:
-                                    ${transpileInstruction(inst, i)}`;
+                            if (jumpTargets.has(i)) {
+                                out = `
+                                    case ${i}:
+                                        ${out}`;
+                            }
+                            return out;
                         })
                         .join("")}
                      default:

@@ -6,6 +6,8 @@ import {parse} from "./parser";
 import {transpile} from "./transpiler";
 import {optimize} from "./optimizer";
 
+const round = (n: number) => n.toFixed(3);
+
 export const parseAndRun = (file: string, a = 0, b = 0, c = 0, d = 0) => {
     const program = parse(fs.readFileSync(file, "utf8"));
     const optimized = optimize(program);
@@ -13,7 +15,12 @@ export const parseAndRun = (file: string, a = 0, b = 0, c = 0, d = 0) => {
     const start = performance.now();
     const finalState = runProgram(optimized, a, b, c, d);
 
-    console.log(`Ran ${file} in ${performance.now() - start}ms, final registers:`, finalState.registers);
+    console.log(
+        `Ran ${path.basename(file)} in-memory in ${round(performance.now() - start)}ms, input:`,
+        {a, b, c, d},
+        "output:",
+        finalState.registers
+    );
 };
 
 export const transpileAndSave = (file: string): string => {
@@ -39,5 +46,10 @@ export const transpileAndRun = (file: string, a = 0, b = 0, c = 0, d = 0) => {
     const start = performance.now();
     const finalRegisters = run(a, b, c, d);
 
-    console.log(`Ran ${file} in ${performance.now() - start}ms, final registers:`, finalRegisters);
+    console.log(
+        `Ran ${path.basename(file)} transpile in ${round(performance.now() - start)}ms, input:`,
+        {a, b, c, d},
+        "output:",
+        finalRegisters
+    );
 };

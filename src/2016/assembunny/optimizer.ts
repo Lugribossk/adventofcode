@@ -123,12 +123,13 @@ const optimizeNeverJump = (a: Instruction) => {
 
 /**
  * Generate a new version of the specified program that runs faster but produces the same result.
+ * Might produce a broken program if the input is overly fond of dynamic jumps and toggles.
  */
 export const optimize = (program: ReadonlyArray<Instruction>): ReadonlyArray<Instruction> => {
-    // Optimizations aren't safe to perform when jumps or toggles can target the replaced instructions.
+    // TODO Optimizations aren't safe to perform when jumps or toggles can target the replaced instructions.
     // And if there's just one jump or toggle in the program that has a register as an argument, then any instruction can potentially be targeted.
     // So the only solution seems to be something where jumping to/toggling an instruction that was involved in an optimization immediately reverts that optimization.
-    // Fortunately the test inputs do not exhibit this behavior so we can skip this for now.
+    // Fortunately the dynamism in the test programs does not interfere with any of the current optimizations so we can skip this for now.
 
     const optimizations = [optimizeMultiply, optimizeAdd, optimizeJumpZero, optimizeNeverJump];
 
