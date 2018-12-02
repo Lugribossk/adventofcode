@@ -1,4 +1,4 @@
-import * as prettier from "prettier";
+import prettier from "prettier";
 import {Instruction, isConstant} from "./core";
 import {Copy, Decrement, Increment, JumpNotZero, NoOp, Output, Toggle, toggleInstruction} from "./instructions";
 import {Add, JumpZero, Multiply} from "./optimizer";

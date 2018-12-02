@@ -1,4 +1,4 @@
-import * as path from "path";
+import path from "path";
 import {parseAndRun, transpileAndRun} from "./assembunny/run";
 
 const file = path.resolve(__dirname, "23.txt");

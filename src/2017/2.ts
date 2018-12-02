@@ -1,5 +1,5 @@
-import * as path from "path";
-import * as fs from "fs";
+import path from "path";
+import fs from "fs";
 
 const largestDifference = (line: number[]) => {
     const min = line.reduce((prev, curr) => (curr < prev ? curr : prev), Infinity);

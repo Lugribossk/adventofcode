@@ -12,10 +12,10 @@
     "dependencies": {
         "prettier": "1.15.2",
         "ts-node": "7.0.1",
-        "typescript": "3.1.6"
+        "typescript": "3.2.1"
     },
     "devDependencies": {
-        "@types/node": "10.12.9",
+        "@types/node": "10.12.11",
         "@types/prettier": "1.15.0"
     }
 }

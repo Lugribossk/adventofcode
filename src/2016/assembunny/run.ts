@@ -1,5 +1,5 @@
-import * as fs from "fs";
-import * as path from "path";
+import fs from "fs";
+import path from "path";
 import {performance} from "perf_hooks";
 import {runProgram} from "./core";
 import {parse} from "./parser";
