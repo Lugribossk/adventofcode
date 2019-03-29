@@ -81,7 +81,7 @@ const parseOutput = (inst?: string, x?: string) => {
 /**
  * Parse the text representation of a program into an abstract syntax object representation.
  */
-export const parse = (input: string): ReadonlyArray<Instruction> => {
+export const parse = (input: string): readonly Instruction[] => {
     const instParsers = [parseCopy, parseIncrement, parseDecrement, parseJumpNotZero, parseToggle, parseOutput];
 
     return input.split("\r\n").map((line, i) => {

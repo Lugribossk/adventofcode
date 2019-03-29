@@ -8,22 +8,22 @@ export type Constant = number;
 export type Register = "a" | "b" | "c" | "d";
 
 export interface Instruction {
-    x?: Constant | Register;
-    y?: Constant | Register;
+    readonly x?: Constant | Register;
+    readonly y?: Constant | Register;
     execute(state: State, output: (n: number) => void): State;
 }
 
-export type State = Readonly<{
-    pc: number;
-    registers: {readonly [key in Register]: number};
-    program: ReadonlyArray<Instruction>;
-}>;
+export interface State {
+    readonly pc: number;
+    readonly registers: {readonly [key in Register]: number};
+    readonly program: readonly Instruction[];
+}
 
 export const isConstant = (arg: Constant | Register): arg is Constant => typeof arg === "number";
 
 export const getArgValue = (arg: Constant | Register, state: State) => (isConstant(arg) ? arg : state.registers[arg]);
 
-export const runProgram = (program: ReadonlyArray<Instruction>, a = 0, b = 0, c = 0, d = 0, output = console.log) => {
+export const runProgram = (program: readonly Instruction[], a = 0, b = 0, c = 0, d = 0, output = console.log) => {
     let state: State = {
         pc: 0,
         registers: {

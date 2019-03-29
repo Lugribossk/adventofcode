@@ -3,7 +3,7 @@ import {Instruction, isConstant} from "./core";
 import {Copy, Decrement, Increment, JumpNotZero, NoOp, Output, Toggle, toggleInstruction} from "./instructions";
 import {Add, JumpZero, Multiply} from "./optimizer";
 
-const getJumpTargets = (program: ReadonlyArray<Instruction>): Set<number> => {
+const getJumpTargets = (program: readonly Instruction[]): Set<number> => {
     // We need to "jump" to the first instruction to start the program, so 0 is always a target.
     const targets = new Set([0]);
     program.forEach((inst, i) => {
@@ -20,7 +20,7 @@ const getJumpTargets = (program: ReadonlyArray<Instruction>): Set<number> => {
     return targets;
 };
 
-const getToggleTargets = (program: ReadonlyArray<Instruction>): Set<number> => {
+const getToggleTargets = (program: readonly Instruction[]): Set<number> => {
     const targets = new Set();
     program.forEach((inst, i) => {
         if (inst instanceof Toggle) {
@@ -96,7 +96,7 @@ const transpileInstruction = (inst: Instruction, index: number): string => {
 /**
  * Transpile the specified program into equivalent Javascript code.
  */
-export const transpile = (program: ReadonlyArray<Instruction>): string => {
+export const transpile = (program: readonly Instruction[]): string => {
     const jumpTargets = getJumpTargets(program);
     const toggleTargets = getToggleTargets(program);
 

@@ -1,7 +1,7 @@
 import {Constant, getArgValue, Instruction, isConstant, Register, State} from "./core";
 import {Copy, Decrement, Increment, JumpNotZero, NoOp} from "./instructions";
 
-const replace = <T>(array: ReadonlyArray<T>, index: number, newItems: ReadonlyArray<T>) => {
+const replace = <T>(array: readonly T[], index: number, newItems: readonly T[]) => {
     const newArray = array.slice(0);
     newArray.splice(index, newItems.length, ...newItems);
     return newArray;
@@ -125,7 +125,7 @@ const optimizeNeverJump = (a: Instruction) => {
  * Generate a new version of the specified program that runs faster but produces the same result.
  * Might produce a broken program if the input is overly fond of dynamic jumps and toggles.
  */
-export const optimize = (program: ReadonlyArray<Instruction>): ReadonlyArray<Instruction> => {
+export const optimize = (program: readonly Instruction[]): readonly Instruction[] => {
     // TODO Optimizations aren't safe to perform when jumps or toggles can target the replaced instructions.
     // And if there's just one jump or toggle in the program that has a register as an argument, then any instruction can potentially be targeted.
     // So the only solution seems to be something where jumping to/toggling an instruction that was involved in an optimization immediately reverts that optimization.
