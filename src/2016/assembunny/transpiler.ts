@@ -21,7 +21,7 @@ const getJumpTargets = (program: readonly Instruction[]): Set<number> => {
 };
 
 const getToggleTargets = (program: readonly Instruction[]): Set<number> => {
-    const targets = new Set();
+    const targets: Set<number> = new Set();
     program.forEach((inst, i) => {
         if (inst instanceof Toggle) {
             if (isConstant(inst.x)) {
