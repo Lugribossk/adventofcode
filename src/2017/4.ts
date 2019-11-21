@@ -19,7 +19,7 @@ const canonicalize = (input: string) => {
     return letters.join("");
 };
 
-const noAnagrams = (input: string[]) => {
+const noAnagrams = (input: number[]) => {
     const words = new Set<string>();
     const valid = input.map(word => {
         const canonical = canonicalize(word);
