@@ -7,15 +7,17 @@
     },
     "scripts": {
         "prettier:fix": "prettier --write \"src/**/*.ts\"",
-        "prettier:check": "prettier --list-different \"src/**/*.ts\""
+        "prettier:check": "prettier --check \"src/**/*.ts\"",
+        "ts": "tsc --noEmit",
+        "test": "yarn run ts && yarn run prettier:check"
     },
     "dependencies": {
-        "prettier": "1.18.2",
-        "ts-node": "8.4.1",
+        "prettier": "1.19.1",
+        "ts-node": "8.5.2",
         "typescript": "3.7.2"
     },
     "devDependencies": {
-        "@types/node": "12.12.6",
-        "@types/prettier": "1.18.3"
+        "@types/node": "12.12.11",
+        "@types/prettier": "1.18.4"
     }
 }
