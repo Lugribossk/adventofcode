@@ -72,7 +72,6 @@ const adjustRelativeBase: Operation = state => ({
     relativeBase: state.relativeBase + getValue(state, 1)
 });
 
-
 export const operations = new Map<number, Operation>([
     [1, add],
     [2, multiply],
