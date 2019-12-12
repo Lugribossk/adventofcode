@@ -3,6 +3,7 @@ export type Memory = {readonly [address: number]: number};
 export type State = {
     readonly memory: Memory;
     readonly ip: number;
+    readonly relativeBase: number;
 };
 
 export type IO = {

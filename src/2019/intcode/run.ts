@@ -28,7 +28,8 @@ export const runProgram = (
 ) => {
     let state: State = {
         memory: initialMemory,
-        ip: 0
+        ip: 0,
+        relativeBase: 0
     };
 
     while (state.memory[state.ip] !== HALT) {

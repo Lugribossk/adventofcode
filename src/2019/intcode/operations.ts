@@ -66,6 +66,13 @@ const equals: Operation = state => ({
     ip: state.ip + 4
 });
 
+const adjustRelativeBase: Operation = state => ({
+    ...state,
+    ip: state.ip + 2,
+    relativeBase: state.relativeBase + getValue(state, 1)
+});
+
+
 export const operations = new Map<number, Operation>([
     [1, add],
     [2, multiply],
@@ -74,5 +81,6 @@ export const operations = new Map<number, Operation>([
     [5, jumpIfTrue],
     [6, jumpIfFalse],
     [7, lessThan],
-    [8, equals]
+    [8, equals],
+    [9, adjustRelativeBase]
 ]);

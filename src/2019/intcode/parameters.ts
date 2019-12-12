@@ -1,16 +1,21 @@
 import {ParameterMode, State} from "./core";
 
 const position: ParameterMode = (state, parameterIndex) => {
-    return state.memory[state.memory[state.ip + parameterIndex]];
+    return state.memory[state.memory[state.ip + parameterIndex]] || 0;
 };
 
 const immediate: ParameterMode = (state, parameterIndex) => {
     return state.memory[state.ip + parameterIndex];
 };
 
+const relative: ParameterMode = (state, parameterIndex) => {
+    return state.memory[state.memory[state.ip + parameterIndex] + state.relativeBase] || 0;
+};
+
 const parameterModes = new Map<number, ParameterMode>([
     [0, position],
-    [1, immediate]
+    [1, immediate],
+    [2, relative]
 ]);
 
 const getParameterMode = (value: number, parameterIndex: number): ParameterMode => {
@@ -35,5 +40,9 @@ export const getValue = (state: State, parameterIndex: number) => {
 };
 
 export const getTarget = (state: State, parameterIndex: number) => {
+    const mode = getParameterMode(state.memory[state.ip], parameterIndex);
+    if (mode === relative) {
+        return state.memory[state.ip + parameterIndex] + state.relativeBase;
+    }
     return state.memory[state.ip + parameterIndex];
 };
