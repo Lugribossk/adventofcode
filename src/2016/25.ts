@@ -54,6 +54,7 @@ const findWithRun = (file: string) => {
 
 const findWithTranspile = (file: string) => {
     const jsModule = transpileAndSave(file);
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const run = require(jsModule);
 
     findAlternatingSequence(run);

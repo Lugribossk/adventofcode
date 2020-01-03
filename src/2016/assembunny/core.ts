@@ -23,7 +23,14 @@ export const isConstant = (arg: Constant | Register): arg is Constant => typeof 
 
 export const getArgValue = (arg: Constant | Register, state: State) => (isConstant(arg) ? arg : state.registers[arg]);
 
-export const runProgram = (program: readonly Instruction[], a = 0, b = 0, c = 0, d = 0, output = console.log) => {
+export const runProgram = (
+    program: readonly Instruction[],
+    a = 0,
+    b = 0,
+    c = 0,
+    d = 0,
+    output = (n: number) => console.log(n)
+) => {
     let state: State = {
         pc: 0,
         registers: {

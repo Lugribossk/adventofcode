@@ -1,0 +1,41 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 2019,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "project": "./tsconfig.json"
+    },
+    "env": {
+        "node": true
+    },
+    "plugins": ["@typescript-eslint"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "prettier",
+        "prettier/@typescript-eslint"
+    ],
+    "rules": {
+        "no-constant-condition": 0,
+
+        "@typescript-eslint/array-type": 2,
+        "@typescript-eslint/explicit-function-return-type": 0,
+        "@typescript-eslint/member-ordering": [
+            2,
+            {
+                "default": ["static-field", "instance-field", "constructor", "instance-method"]
+            }
+        ],
+        "@typescript-eslint/no-empty-function": 0,
+        "@typescript-eslint/no-explicit-any": 2,
+        "@typescript-eslint/no-non-null-assertion": 0,
+        "@typescript-eslint/no-unused-vars": 0,
+        "@typescript-eslint/prefer-optional-chain": 2,
+        "@typescript-eslint/prefer-readonly": 2
+    }
+}

@@ -9,7 +9,7 @@ export const parse = (input: string): Memory => {
     return input
         .split(",")
         .map(v => parseInt(v))
-        .reduce((acc: any, curr, i) => {
+        .reduce((acc: Record<string, number>, curr, i) => {
             acc[i] = curr;
             return acc;
         }, {});
