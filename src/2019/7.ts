@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import {parse, runProgram} from "./intcode/run";
-import {Memory} from "./intcode/core";
+import {Memory, State} from "./intcode/core";
 
 const permutations = <T>(items: T[]): T[][] => {
     if (items.length === 0) {
@@ -12,11 +12,11 @@ const permutations = <T>(items: T[]): T[][] => {
     });
 };
 
-const runAmplifier = (memory: Memory, phase: number, input: number): number => {
+const runAmplifier = async (memory: Memory, phase: number, input: number): Promise<number> => {
     let firstInput = true;
     let output: number;
 
-    runProgram(memory, {
+    await runProgram(memory, {
         input() {
             if (firstInput) {
                 firstInput = false;
@@ -32,24 +32,80 @@ const runAmplifier = (memory: Memory, phase: number, input: number): number => {
     return output!;
 };
 
-const maxSignal = (program: string) => {
+const maxSignal = async (program: string) => {
     const memory = parse(program);
     let max = -Infinity;
 
-    permutations([0, 1, 2, 3, 4]).forEach(phases => {
+    for (const phases of permutations([0, 1, 2, 3, 4])) {
         let signal = 0;
-        phases.forEach(phase => {
-            signal = runAmplifier(memory, phase, signal);
-        });
+
+        for (const phase of phases) {
+            signal = await runAmplifier(memory, phase, signal);
+        }
 
         if (signal > max) {
             max = signal;
         }
-    });
+    }
 
     return max;
 };
 
-const input = fs.readFileSync(path.resolve(__dirname, "7.txt"), "utf8");
+class AsyncValue<T> {
+    private val: T;
+    private resolve: (v: T) => void;
+    private promise!: Promise<T>;
 
-console.log(maxSignal(input));
+    constructor(initial: T) {
+        this.val = initial;
+        this.resolve = () => {};
+        this.value = initial;
+    }
+
+    get value(): T {
+        return this.val;
+    }
+
+    set value(v: T) {
+        this.val = v;
+        const resolve = this.resolve;
+        this.promise = new Promise(resolve => {
+            this.resolve = resolve;
+        });
+        resolve(v);
+    }
+
+    async valueChanged(): Promise<T> {
+        return this.promise;
+    }
+}
+
+
+const runAmplifiersRepeatedly = async (memory: Memory, phases: number[]) => {
+    const inputs: AsyncValue<number>[] = [];
+    const programs: Promise<State>[] = [];
+
+    for (let i = 0; i < 5; i++) {
+        inputs[i] = new AsyncValue(0);
+        programs[i] = runProgram(memory, {
+            async input() {
+                return inputs[i].valueChanged();
+            },
+            output(n) {
+                inputs[(i + 1) % inputs.length].value = n;
+            }
+        });
+    }
+
+    inputs[0].value = 0;
+
+    await Promise.all(programs);
+
+    return inputs[0].value;
+};
+
+(async () => {
+    const input = fs.readFileSync(path.resolve(__dirname, "7.txt"), "utf8");
+
+    console.log(await maxSignal(input));
+})();

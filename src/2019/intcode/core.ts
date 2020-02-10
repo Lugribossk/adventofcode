@@ -7,11 +7,11 @@ export type State = {
 };
 
 export type IO = {
-    input(): number;
+    input(): number | Promise<number>;
     output(out: number, finished: boolean): void;
 };
 
-export type Operation = (state: State, context: IO) => State;
+export type Operation = (state: State, context: IO) => State | Promise<State>;
 
 export type ParameterMode = (state: State, parameterIndex: number) => number;
 

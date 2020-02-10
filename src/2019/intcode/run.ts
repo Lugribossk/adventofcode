@@ -15,7 +15,7 @@ export const parse = (input: string): Memory => {
         }, {});
 };
 
-export const runProgram = (
+export const runProgram = async (
     initialMemory: Memory,
     io: IO = {
         input() {
@@ -43,7 +43,7 @@ export const runProgram = (
             throw new Error(`Unknown opcode ${opcode} at position ${state.ip} on ${state.memory}.`);
         }
 
-        state = operations.get(opcode)!(state, io);
+        state = await operations.get(opcode)!(state, io);
     }
 
     return state;

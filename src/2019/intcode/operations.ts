@@ -21,17 +21,17 @@ const multiply: Operation = state => ({
     ip: state.ip + 4
 });
 
-const read: Operation = (state, {input}) => ({
+const read: Operation = async (state, io) => ({
     ...state,
     memory: {
         ...state.memory,
-        [getTarget(state, 1)]: input()
+        [getTarget(state, 1)]: await io.input()
     },
     ip: state.ip + 2
 });
 
-const write: Operation = (state, {output}) => {
-    output(getValue(state, 1), state.memory[state.ip + 2] === HALT);
+const write: Operation = (state, io) => {
+    io.output(getValue(state, 1), state.memory[state.ip + 2] === HALT);
     return {
         ...state,
         ip: state.ip + 2

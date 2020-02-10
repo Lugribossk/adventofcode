@@ -2,24 +2,28 @@ import fs from "fs";
 import path from "path";
 import {parse, runProgram} from "./intcode/run";
 
-const run = (program: string, id: number) => {
+const run = async (program: string, id: number) => {
     const initialMemory = parse(program);
-    runProgram(initialMemory, {
+    let output;
+    await runProgram(initialMemory, {
         input() {
             return id;
         },
         output(out, finished) {
             if (finished) {
-                console.log(out);
+                output = out;
             } else if (out !== 0) {
                 throw new Error("Unexpected non-zero output.");
             }
         }
     });
+    return output;
 };
 
-const input = fs.readFileSync(path.resolve(__dirname, "5.txt"), "utf8");
+(async () => {
+    const input = fs.readFileSync(path.resolve(__dirname, "5.txt"), "utf8");
 
-run(input, 1);
+    console.log(await run(input, 1));
 
-run(input, 5);
+    console.log(await run(input, 5));
+})();
