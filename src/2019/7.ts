@@ -80,7 +80,6 @@ class AsyncValue<T> {
     }
 }
 
-
 const runAmplifiersRepeatedly = async (memory: Memory, phases: number[]) => {
     const inputs: AsyncValue<number>[] = [];
     const programs: Promise<State>[] = [];
