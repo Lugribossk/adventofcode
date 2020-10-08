@@ -137,7 +137,7 @@ export const transpile = (program: readonly Instruction[]): string => {
         module.exports = run;`;
 
     return prettier.format(source, {
-        parser: "babylon",
+        parser: "babel",
         ...prettier.resolveConfig.sync(__dirname)
     });
 };

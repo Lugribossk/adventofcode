@@ -1,10 +1,10 @@
 import fs from "fs";
 import path from "path";
 
-interface State {
+type State = {
     offsets: number[];
     pc: number;
-}
+};
 
 const execute = ({offsets, pc}: State, calculateOffset: (current: number) => number) => {
     const newOffsets = offsets.slice(0);

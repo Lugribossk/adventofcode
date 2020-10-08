@@ -1,4 +1,4 @@
-import {Constant, Register, Instruction} from "./core";
+import type {Constant, Register, Instruction} from "./core";
 import {Copy, Decrement, Increment, JumpNotZero, Output, Toggle} from "./instructions";
 
 const parseConstant = (input?: string): Constant => {

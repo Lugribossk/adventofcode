@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import {parse, runProgram} from "./intcode/run";
-import {Memory, State} from "./intcode/core";
+import type {Memory, State} from "./intcode/core";
 
 const permutations = <T>(items: T[]): T[][] => {
     if (items.length === 0) {

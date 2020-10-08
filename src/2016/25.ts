@@ -47,7 +47,7 @@ const findWithRun = (file: string) => {
     const program = parse(fs.readFileSync(file, "utf8"));
     const optimized = optimize(program);
 
-    findAlternatingSequence((a: number, b: number, c: number, d: number, output: (n: number) => void) => {
+    findAlternatingSequence((a, b, c, d, output) => {
         runProgram(optimized, a, b, c, d, output);
     });
 };

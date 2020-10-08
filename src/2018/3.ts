@@ -1,13 +1,13 @@
 import fs from "fs";
 import path from "path";
 
-interface Claim {
+type Claim = {
     id: string;
     x: number;
     y: number;
     width: number;
     height: number;
-}
+};
 
 const parse = (line: string): Claim => {
     const match = /#(\d+) @ (\d+),(\d+): (\d+)x(\d+)/.exec(line);

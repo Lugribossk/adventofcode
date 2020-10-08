@@ -1,4 +1,4 @@
-import {ParameterMode, State} from "./core";
+import type {ParameterMode, State} from "./core";
 
 const position: ParameterMode = (state, parameterIndex) => {
     return state.memory[state.ip + parameterIndex];
