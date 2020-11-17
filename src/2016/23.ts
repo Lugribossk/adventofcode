@@ -1,12 +1,14 @@
 import path from "path";
 import {parseAndRun, transpileAndRun} from "./assembunny/run";
 
-const file = path.resolve(__dirname, "23.txt");
+(async () => {
+    const file = path.resolve(__dirname, "23.txt");
 
-parseAndRun(file, 7);
+    parseAndRun(file, 7);
 
-transpileAndRun(file, 7);
+    await transpileAndRun(file, 7);
 
-parseAndRun(file, 12);
+    parseAndRun(file, 12);
 
-transpileAndRun(file, 12);
+    await transpileAndRun(file, 12);
+})();

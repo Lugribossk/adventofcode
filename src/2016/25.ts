@@ -52,16 +52,17 @@ const findWithRun = (file: string) => {
     });
 };
 
-const findWithTranspile = (file: string) => {
+const findWithTranspile = async (file: string) => {
     const jsModule = transpileAndSave(file);
-    // eslint-disable-next-line @typescript-eslint/no-var-requires,@typescript-eslint/no-require-imports
-    const run = require(jsModule);
+    const {default: run} = await import(jsModule);
 
     findAlternatingSequence(run);
 };
 
-const file = path.resolve(__dirname, "25.txt");
+(async () => {
+    const file = path.resolve(__dirname, "25.txt");
 
-findWithRun(file);
+    findWithRun(file);
 
-findWithTranspile(file);
+    await findWithTranspile(file);
+})();

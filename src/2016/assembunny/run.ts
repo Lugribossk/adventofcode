@@ -28,7 +28,7 @@ export const transpileAndSave = (file: string): string => {
     const optimized = optimize(program);
     const script = transpile(optimized);
 
-    const targetDir = path.join(__dirname, `../../../target`);
+    const targetDir = path.join(__dirname, `../../../target/transpiled`);
     if (!fs.existsSync(targetDir)) {
         fs.mkdirSync(targetDir);
     }
@@ -39,10 +39,9 @@ export const transpileAndSave = (file: string): string => {
     return filename;
 };
 
-export const transpileAndRun = (file: string, a = 0, b = 0, c = 0, d = 0) => {
+export const transpileAndRun = async (file: string, a = 0, b = 0, c = 0, d = 0) => {
     const jsModule = transpileAndSave(file);
-    // eslint-disable-next-line @typescript-eslint/no-var-requires,@typescript-eslint/no-require-imports
-    const run = require(jsModule);
+    const {default: run} = await import(jsModule);
 
     const start = performance.now();
     const finalRegisters = run(a, b, c, d);
