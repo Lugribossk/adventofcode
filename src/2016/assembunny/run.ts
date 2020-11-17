@@ -41,7 +41,7 @@ export const transpileAndSave = (file: string): string => {
 
 export const transpileAndRun = (file: string, a = 0, b = 0, c = 0, d = 0) => {
     const jsModule = transpileAndSave(file);
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    // eslint-disable-next-line @typescript-eslint/no-var-requires,@typescript-eslint/no-require-imports
     const run = require(jsModule);
 
     const start = performance.now();
