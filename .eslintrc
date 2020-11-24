@@ -22,22 +22,17 @@
     "rules": {
         "@typescript-eslint/array-type": 2,
         "@typescript-eslint/consistent-type-assertions": 2,
-        "@typescript-eslint/consistent-type-definitions": [2, "type"],
+        "@typescript-eslint/consistent-type-definitions": [2, "interface"],
         "@typescript-eslint/explicit-function-return-type": 0,
-        "@typescript-eslint/explicit-module-boundary-types": 0,
+        "@typescript-eslint/explicit-module-boundary-types": 2,
         "@typescript-eslint/member-ordering": [
             2,
             {
-                "default": [
-                    "static-field",
-                    "instance-field",
-                    "constructor",
-                    "instance-method"
-                ]
+                "default": ["static-field", "instance-field", "constructor", "instance-method"]
             }
         ],
         "@typescript-eslint/no-empty-function": 0,
-        "@typescript-eslint/no-explicit-any": [2, {"fixToUnknown":  true}],
+        "@typescript-eslint/no-explicit-any": [2, {"fixToUnknown": true}],
         "@typescript-eslint/no-floating-promises": 0,
         "@typescript-eslint/no-non-null-assertion": 0,
         "@typescript-eslint/no-require-imports": 2,
@@ -50,6 +45,7 @@
         "@typescript-eslint/prefer-readonly": 2,
         "@typescript-eslint/prefer-regexp-exec": 0,
         "@typescript-eslint/restrict-template-expressions": 0,
+        "@typescript-eslint/switch-exhaustiveness-check": 2,
 
         "no-constant-condition": 0
     }

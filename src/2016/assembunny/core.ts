@@ -7,21 +7,22 @@ export type Constant = number;
 
 export type Register = "a" | "b" | "c" | "d";
 
-export type Instruction = {
+export interface Instruction {
     readonly x?: Constant | Register;
     readonly y?: Constant | Register;
     execute(state: State, output: (n: number) => void): State;
-};
+}
 
-export type State = {
+export interface State {
     readonly pc: number;
     readonly registers: {readonly [key in Register]: number};
     readonly program: readonly Instruction[];
-};
+}
 
 export const isConstant = (arg: Constant | Register): arg is Constant => typeof arg === "number";
 
-export const getArgValue = (arg: Constant | Register, state: State) => (isConstant(arg) ? arg : state.registers[arg]);
+export const getArgValue = (arg: Constant | Register, state: State): number =>
+    isConstant(arg) ? arg : state.registers[arg];
 
 export const runProgram = (
     program: readonly Instruction[],
@@ -30,7 +31,7 @@ export const runProgram = (
     c = 0,
     d = 0,
     output = (n: number) => console.log(n)
-) => {
+): State => {
     let state: State = {
         pc: 0,
         registers: {

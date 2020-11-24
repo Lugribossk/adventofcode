@@ -12,7 +12,7 @@ export class Copy implements Instruction {
         this.y = y;
     }
 
-    execute(state: State) {
+    execute(state: State): State {
         return {
             ...state,
             pc: state.pc + 1,
@@ -34,7 +34,7 @@ export class Increment implements Instruction {
         this.x = x;
     }
 
-    execute(state: State) {
+    execute(state: State): State {
         return {
             ...state,
             pc: state.pc + 1,
@@ -56,7 +56,7 @@ export class Decrement implements Instruction {
         this.x = x;
     }
 
-    execute(state: State) {
+    execute(state: State): State {
         return {
             ...state,
             pc: state.pc + 1,
@@ -82,7 +82,7 @@ export class JumpNotZero implements Instruction {
         this.y = y;
     }
 
-    execute(state: State) {
+    execute(state: State): State {
         return {
             ...state,
             pc: state.pc + (getArgValue(this.x, state) !== 0 ? getArgValue(this.y, state) : 1)
@@ -108,7 +108,7 @@ export class NoOp implements Instruction {
     }
 }
 
-export const toggleInstruction = (oldInst: Instruction) => {
+export const toggleInstruction = (oldInst: Instruction): Instruction => {
     const {x, y} = oldInst;
     if (oldInst instanceof NoOp) {
         return oldInst.reverse;
@@ -151,7 +151,7 @@ export class Toggle implements Instruction {
         this.x = x;
     }
 
-    execute(state: State) {
+    execute(state: State): State {
         const target = state.pc + getArgValue(this.x, state);
         if (target < 0 || target >= state.program.length) {
             return {

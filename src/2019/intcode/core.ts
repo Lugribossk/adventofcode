@@ -1,15 +1,17 @@
-export type Memory = {readonly [address: number]: number};
+export interface Memory {
+    readonly [address: number]: number;
+}
 
-export type State = {
+export interface State {
     readonly memory: Memory;
     readonly ip: number;
     readonly relativeBase: number;
-};
+}
 
-export type IO = {
+export interface IO {
     input(): number | Promise<number>;
     output(out: number, finished: boolean): void;
-};
+}
 
 export type Operation = (state: State, context: IO) => State | Promise<State>;
 

@@ -67,7 +67,7 @@ export class JumpZero implements Instruction {
         this.y = y;
     }
 
-    execute(state: State) {
+    execute(state: State): State {
         return {
             ...state,
             pc: state.pc + (getArgValue(this.x, state) === 0 ? getArgValue(this.y, state) : 1)

@@ -8,7 +8,7 @@ import {optimize} from "./optimizer";
 
 const round = (n: number) => n.toFixed(3);
 
-export const parseAndRun = (file: string, a = 0, b = 0, c = 0, d = 0) => {
+export const parseAndRun = (file: string, a = 0, b = 0, c = 0, d = 0): void => {
     const program = parse(fs.readFileSync(file, "utf8"));
     const optimized = optimize(program);
 
@@ -39,7 +39,7 @@ export const transpileAndSave = (file: string): string => {
     return filename;
 };
 
-export const transpileAndRun = async (file: string, a = 0, b = 0, c = 0, d = 0) => {
+export const transpileAndRun = async (file: string, a = 0, b = 0, c = 0, d = 0): Promise<void> => {
     const jsModule = transpileAndSave(file);
     const {default: run} = await import(jsModule);
 

@@ -25,7 +25,7 @@ export const runProgram = async (
             throw new Error("output() must be implemented for programs that write.");
         }
     }
-) => {
+): Promise<State> => {
     let state: State = {
         memory: initialMemory,
         ip: 0,

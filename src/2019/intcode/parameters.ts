@@ -34,12 +34,12 @@ const getParameterMode = (value: number, parameterIndex: number): ParameterMode 
     return parameterModes.get(mode)!;
 };
 
-export const getValue = (state: State, parameterIndex: number) => {
+export const getValue = (state: State, parameterIndex: number): number => {
     const mode = getParameterMode(state.memory[state.ip], parameterIndex);
     return state.memory[mode(state, parameterIndex)] || 0;
 };
 
-export const getTarget = (state: State, parameterIndex: number) => {
+export const getTarget = (state: State, parameterIndex: number): number => {
     const mode = getParameterMode(state.memory[state.ip], parameterIndex);
     if (mode === immediate) {
         throw new Error("Target parameters should not be in immediate mode.");
