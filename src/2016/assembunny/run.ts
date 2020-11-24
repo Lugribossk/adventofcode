@@ -1,10 +1,18 @@
 import fs from "fs";
 import path from "path";
 import {performance} from "perf_hooks";
-import {runProgram} from "./core";
+import {runProgram, State} from "./core";
 import {parse} from "./parser";
 import {transpile} from "./transpiler";
 import {optimize} from "./optimizer";
+
+export type TranspiledRunFunction = (
+    a: number,
+    b: number,
+    c: number,
+    d: number,
+    output?: (n: number) => void
+) => State["registers"];
 
 const round = (n: number) => n.toFixed(3);
 
@@ -41,7 +49,7 @@ export const transpileAndSave = (file: string): string => {
 
 export const transpileAndRun = async (file: string, a = 0, b = 0, c = 0, d = 0): Promise<void> => {
     const jsModule = transpileAndSave(file);
-    const {default: run} = await import(jsModule);
+    const {default: run} = (await import(jsModule)) as {default: TranspiledRunFunction};
 
     const start = performance.now();
     const finalRegisters = run(a, b, c, d);

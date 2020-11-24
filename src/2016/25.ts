@@ -1,14 +1,12 @@
 import fs from "fs";
 import path from "path";
 import {performance} from "perf_hooks";
-import {transpileAndSave} from "./assembunny/run";
+import {TranspiledRunFunction, transpileAndSave} from "./assembunny/run";
 import {parse} from "./assembunny/parser";
 import {optimize} from "./assembunny/optimizer";
 import {runProgram} from "./assembunny/core";
 
-const findAlternatingSequence = (
-    run: (a: number, b: number, c: number, d: number, output: (n: number) => void) => void
-) => {
+const findAlternatingSequence = (run: TranspiledRunFunction) => {
     // Try all sequences, proceeding to the next one as soon as the current one does not alternate correctly.
     // If the sequence alternates correctly for long enough (even a short run seems to be enough for the test data),
     // we assume it will do so forever.
@@ -33,7 +31,7 @@ const findAlternatingSequence = (
                 }
             });
         } catch (e) {
-            if (e.message === "done") {
+            if (e instanceof Error && e.message === "done") {
                 break;
             }
             a++;
@@ -48,13 +46,13 @@ const findWithRun = (file: string) => {
     const optimized = optimize(program);
 
     findAlternatingSequence((a, b, c, d, output) => {
-        runProgram(optimized, a, b, c, d, output);
+        return runProgram(optimized, a, b, c, d, output).registers;
     });
 };
 
 const findWithTranspile = async (file: string) => {
     const jsModule = transpileAndSave(file);
-    const {default: run} = await import(jsModule);
+    const {default: run} = (await import(jsModule)) as {default: TranspiledRunFunction};
 
     findAlternatingSequence(run);
 };

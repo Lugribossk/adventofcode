@@ -99,7 +99,7 @@ export const parse = (input: string): readonly Instruction[] => {
             }
             return possibleInst;
         } catch (e) {
-            throw new Error(`Parse error on line ${i}: ${e.message}`);
+            throw new Error(`Parse error on line ${i}: ${e}`);
         }
     });
 };
