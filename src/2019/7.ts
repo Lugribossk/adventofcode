@@ -1,7 +1,6 @@
-import fs from "fs";
-import path from "path";
 import {parse, runProgram} from "./intcode/run";
 import type {Memory, State} from "./intcode/core";
+import {readInput} from "../utils";
 
 const permutations = <T>(items: T[]): T[][] => {
     if (items.length === 0) {
@@ -103,7 +102,7 @@ const runAmplifiersRepeatedly = async (memory: Memory, phases: number[]) => {
 };
 
 (async () => {
-    const input = fs.readFileSync(path.resolve(__dirname, "7.txt"), "utf8");
+    const input = readInput(__filename);
 
     console.log(await maxSignal(input));
 })();

@@ -1,5 +1,4 @@
-import fs from "fs";
-import path from "path";
+import {readInput} from "../utils";
 
 const noDuplicates = (input: string[]) => {
     const words = new Set<string>();
@@ -37,7 +36,7 @@ const run = (content: string, filter: (input: string[]) => boolean) => {
     console.log(phrases.filter(filter).length);
 };
 
-const input = fs.readFileSync(path.resolve(__dirname, "4.txt"), "utf8");
+const input = readInput(__filename);
 
 run(input, noDuplicates);
 

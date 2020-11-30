@@ -1,5 +1,4 @@
-import fs from "fs";
-import path from "path";
+import {readInput} from "../utils";
 
 const countOccurrences = (letters: string[]) => {
     const values = new Map<string, number>();
@@ -40,8 +39,7 @@ const commonCorrectIds = (lines: string[][]) => {
     throw new Error();
 };
 
-const input = fs
-    .readFileSync(path.resolve(__dirname, "2.txt"), "utf8")
+const input = readInput(__filename)
     .split("\r\n")
     .map(line => line.split(""));
 

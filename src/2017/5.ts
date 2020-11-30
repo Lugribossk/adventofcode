@@ -1,5 +1,4 @@
-import fs from "fs";
-import path from "path";
+import {readInput} from "../utils";
 
 interface State {
     offsets: number[];
@@ -34,7 +33,7 @@ const parse = (content: string): State => {
     };
 };
 
-const input = fs.readFileSync(path.resolve(__dirname, "5.txt"), "utf8");
+const input = readInput(__filename);
 
 run(parse(input), n => n + 1);
 

@@ -1,5 +1,4 @@
-import fs from "fs";
-import path from "path";
+import {readInput} from "../utils";
 
 const sum = (numbers: number[]) => numbers.reduce((prev, curr) => prev + curr, 0);
 
@@ -16,8 +15,7 @@ const firstTwice = (numbers: number[]) => {
     }
 };
 
-const input = fs
-    .readFileSync(path.resolve(__dirname, "1.txt"), "utf8")
+const input = readInput(__filename)
     .split("\r\n")
     .map(n => parseInt(n));
 

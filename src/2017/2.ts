@@ -1,5 +1,4 @@
-import path from "path";
-import fs from "fs";
+import {readInput} from "../utils";
 
 const largestDifference = (line: number[]) => {
     const min = line.reduce((prev, curr) => (curr < prev ? curr : prev), Infinity);
@@ -28,7 +27,7 @@ const run = (content: string, method: (line: number[]) => number) => {
     console.log(checksum);
 };
 
-const input = fs.readFileSync(path.resolve(__dirname, "2.txt"), "utf8");
+const input = readInput(__filename);
 
 run(input, largestDifference);
 

@@ -1,5 +1,5 @@
 import fs from "fs";
-import path from "path";
+import {readInput} from "../utils";
 
 interface Claim {
     id: string;
@@ -46,8 +46,7 @@ const findNonOverlapping = (claims: Claim[], overlaps: string[][]) => {
     return ids;
 };
 
-const input = fs
-    .readFileSync(path.resolve(__dirname, "3.txt"), "utf8")
+const input = readInput(__filename)
     .split("\r\n")
     .map(line => parse(line));
 

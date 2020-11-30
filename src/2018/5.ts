@@ -1,5 +1,4 @@
-import fs from "fs";
-import path from "path";
+import {readInput} from "../utils";
 
 const canReact = (a: string | undefined, b: string | undefined) => {
     return a?.toUpperCase() == b?.toUpperCase() && a != b;
@@ -27,7 +26,7 @@ const withoutEachType = (units: string[]) => {
     });
 };
 
-const input = fs.readFileSync(path.resolve(__dirname, "5.txt"), "utf8").split("");
+const input = readInput(__filename).split("");
 
 console.log(doReactions(input).length);
 

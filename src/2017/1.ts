@@ -1,5 +1,4 @@
-import fs from "fs";
-import path from "path";
+import {readInput} from "../utils";
 
 const sum = (data: string, offset: (length: number) => number) => {
     return data
@@ -9,7 +8,7 @@ const sum = (data: string, offset: (length: number) => number) => {
         .reduce((prev, current) => prev + current, 0);
 };
 
-const input = fs.readFileSync(path.resolve(__dirname, "1.txt"), "utf8");
+const input = readInput(__filename);
 
 console.log(sum(input, () => 1));
 

@@ -1,6 +1,5 @@
-import fs from "fs";
-import path from "path";
 import {parse, runProgram} from "./intcode/run";
+import {readInput} from "../utils";
 
 const run = async (program: string, noun: number, verb: number) => {
     const parsed = parse(program);
@@ -33,7 +32,7 @@ const find = async (program: string, targetOutput: number) => {
 };
 
 (async () => {
-    const input = fs.readFileSync(path.resolve(__dirname, "2.txt"), "utf8");
+    const input = readInput(__filename);
 
     console.log(await run(input, 12, 2));
 
