@@ -15,17 +15,16 @@ export const parse = (input: string): Memory => {
         }, {});
 };
 
-export const runProgram = async (
-    initialMemory: Memory,
-    io: IO = {
-        input() {
-            throw new Error("input() must be implemented for programs that read.");
-        },
-        output() {
-            throw new Error("output() must be implemented for programs that write.");
-        }
+const defaultIo = {
+    input() {
+        throw new Error("input() must be implemented for programs that read.");
+    },
+    output() {
+        throw new Error("output() must be implemented for programs that write.");
     }
-): Promise<State> => {
+};
+
+export const runProgram = async (initialMemory: Memory, io: IO = defaultIo): Promise<State> => {
     let state: State = {
         memory: initialMemory,
         ip: 0,
@@ -47,4 +46,23 @@ export const runProgram = async (
     }
 
     return state;
+};
+
+export const runWithIo = async (program: string, input: number): Promise<number> => {
+    const initialMemory = parse(program);
+
+    return new Promise(resolve => {
+        runProgram(initialMemory, {
+            input() {
+                return input;
+            },
+            output(out, finished) {
+                if (finished) {
+                    resolve(out);
+                } else if (out !== 0) {
+                    throw new Error("Unexpected non-zero output.");
+                }
+            }
+        });
+    });
 };

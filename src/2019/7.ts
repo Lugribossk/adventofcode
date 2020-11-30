@@ -14,22 +14,21 @@ const permutations = <T>(items: T[]): T[][] => {
 
 const runAmplifier = async (memory: Memory, phase: number, input: number): Promise<number> => {
     let firstInput = true;
-    let output: number;
 
-    await runProgram(memory, {
-        input() {
-            if (firstInput) {
-                firstInput = false;
-                return phase;
+    return new Promise(resolve => {
+        runProgram(memory, {
+            input() {
+                if (firstInput) {
+                    firstInput = false;
+                    return phase;
+                }
+                return input;
+            },
+            output(out, finished) {
+                resolve(out);
             }
-            return input;
-        },
-        output(out, finished) {
-            output = out;
-        }
+        });
     });
-
-    return output!;
 };
 
 const maxSignal = async (program: string) => {

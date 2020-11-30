@@ -9,8 +9,13 @@
         "prettier:fix": "prettier --write \"src/**/*.ts\"",
         "prettier:check": "prettier --check \"src/**/*.ts\"",
         "ts": "tsc --noEmit",
-        "test": "yarn run ts && yarn run lint && yarn run prettier:check",
+        "test": "yarn run ts && yarn run lint && yarn run prettier:check && yarn run type-coverage",
         "lint": "eslint --max-warnings=0 src"
+    },
+    "typeCoverage": {
+        "atLeast": 100,
+        "detail": true,
+        "ignoreCatch": true
     },
     "dependencies": {
         "prettier": "2.2.0",
@@ -23,6 +28,7 @@
         "@typescript-eslint/eslint-plugin": "4.8.1",
         "@typescript-eslint/parser": "4.8.1",
         "eslint": "7.13.0",
-        "eslint-config-prettier": "6.15.0"
+        "eslint-config-prettier": "6.15.0",
+        "type-coverage": "^2.14.5"
     }
 }

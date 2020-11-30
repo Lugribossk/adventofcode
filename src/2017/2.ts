@@ -8,7 +8,7 @@ const largestDifference = (line: number[]) => {
 };
 
 const evenlyDivisible = (line: number[]) => {
-    let out: number;
+    let out = 0;
     line.forEach(n => {
         line.forEach(other => {
             const high = Math.max(n, other);
@@ -18,7 +18,7 @@ const evenlyDivisible = (line: number[]) => {
             }
         });
     });
-    return out!;
+    return out;
 };
 
 const run = (content: string, method: (line: number[]) => number) => {
