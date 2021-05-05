@@ -12,6 +12,7 @@
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,
+        "noPropertyAccessFromIndexSignature": true,
         "outDir": "./target",
         "resolveJsonModule": true,
         "sourceMap": true,

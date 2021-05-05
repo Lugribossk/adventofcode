@@ -25,15 +25,16 @@ const run = (initial: State, calculateOffset: (current: number) => number) => {
     return state;
 };
 
-const parse = (content: string): State => {
-    const offsets = content.split("\r\n").map(n => parseInt(n));
+const parse = (offsets: number[]): State => {
     return {
         offsets: offsets,
         pc: 0
     };
 };
 
-const input = readInput(__filename);
+const input = readInput(__filename)
+    .split("\r\n")
+    .map(n => parseInt(n));
 
 run(parse(input), n => n + 1);
 

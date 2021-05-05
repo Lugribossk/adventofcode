@@ -31,13 +31,14 @@ const noAnagrams = (input: string[]) => {
     return valid.every(n => n);
 };
 
-const run = (content: string, filter: (input: string[]) => boolean) => {
-    const phrases = content.split("\r\n").map(n => n.split(" "));
-    console.log(phrases.filter(filter).length);
+const run = (phrases: string[][], filter: (input: string[]) => boolean) => {
+    return phrases.filter(filter).length;
 };
 
-const input = readInput(__filename);
+const input = readInput(__filename)
+    .split("\r\n")
+    .map(n => n.split(" "));
 
-run(input, noDuplicates);
+console.log(run(input, noDuplicates));
 
-run(input, p => noDuplicates(p) && noAnagrams(p));
+console.log(run(input, p => noDuplicates(p) && noAnagrams(p)));

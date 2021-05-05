@@ -20,15 +20,14 @@ const evenlyDivisible = (line: number[]) => {
     return out;
 };
 
-const run = (content: string, method: (line: number[]) => number) => {
-    const spreadsheet = content.split("\r\n").map(line => line.split("\t").map(n => parseInt(n)));
-
-    const checksum = spreadsheet.map(method).reduce((prev, curr) => prev + curr, 0);
-    console.log(checksum);
+const run = (spreadsheet: number[][], method: (line: number[]) => number) => {
+    return spreadsheet.map(method).reduce((prev, curr) => prev + curr, 0);
 };
 
-const input = readInput(__filename);
+const input = readInput(__filename)
+    .split("\r\n")
+    .map(line => line.split("\t").map(n => parseInt(n)));
 
-run(input, largestDifference);
+console.log(run(input, largestDifference));
 
-run(input, evenlyDivisible);
+console.log(run(input, evenlyDivisible));

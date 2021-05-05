@@ -16,8 +16,7 @@
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
-        "prettier",
-        "prettier/@typescript-eslint"
+        "prettier"
     ],
     "rules": {
         "@typescript-eslint/array-type": 2,
@@ -38,6 +37,17 @@
             {
                 "selector": "variable",
                 "format": ["camelCase", "UPPER_CASE"]
+            },
+            {
+                "selector": "variable",
+                "types": ["function"],
+                "format": ["camelCase", "PascalCase"]
+            },
+            {
+                "selector": "variable",
+                "modifiers": ["global", "const"],
+                "types": ["boolean", "string", "number"],
+                "format": ["UPPER_CASE"]
             },
             {
                 "selector": "typeLike",
