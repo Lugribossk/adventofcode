@@ -1,7 +1,7 @@
 import {readInput} from "../utils";
 
 const canReact = (a: string | undefined, b: string | undefined) => {
-    return a?.toUpperCase() == b?.toUpperCase() && a != b;
+    return a?.toUpperCase() === b?.toUpperCase() && a !== b;
 };
 
 const doReactions = (units: string[]) => {
@@ -22,7 +22,7 @@ const withoutEachType = (units: string[]) => {
     const types = new Set(units.map(u => u.toUpperCase()));
 
     return Array.from(types.values()).map(t => {
-        return doReactions(units.filter(u => u.toUpperCase() != t));
+        return doReactions(units.filter(u => u.toUpperCase() !== t));
     });
 };
 

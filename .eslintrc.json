@@ -19,6 +19,8 @@
         "prettier"
     ],
     "rules": {
+        "eqeqeq": 2,
+        "no-else-return": 2,
         "@typescript-eslint/array-type": 2,
         "@typescript-eslint/consistent-type-assertions": 2,
         "@typescript-eslint/consistent-type-definitions": [2, "interface"],
