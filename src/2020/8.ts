@@ -45,22 +45,20 @@ class Nop extends Instruction {
 
 const input = readInput(__filename)
     .split("\r\n")
-    .map(
-        (line): Instruction => {
-            const [op, rawArg] = line.split(" ");
-            const arg = parseInt(rawArg);
-            if (op === "acc") {
-                return new Accumulator(arg);
-            }
-            if (op === "jmp") {
-                return new Jump(arg);
-            }
-            if (op === "nop") {
-                return new Nop(arg);
-            }
-            throw new Error(`Unable to parse '${line}`);
+    .map((line): Instruction => {
+        const [op, rawArg] = line.split(" ");
+        const arg = parseInt(rawArg);
+        if (op === "acc") {
+            return new Accumulator(arg);
         }
-    );
+        if (op === "jmp") {
+            return new Jump(arg);
+        }
+        if (op === "nop") {
+            return new Nop(arg);
+        }
+        throw new Error(`Unable to parse '${line}`);
+    });
 
 const run = (program: Instruction[]) => {
     const visited = new Set<number>();

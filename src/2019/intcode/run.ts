@@ -6,13 +6,12 @@ const getOpcode = (value: number) => {
 };
 
 export const parse = (input: string): Memory => {
-    return input
-        .split(",")
-        .map(v => parseInt(v))
-        .reduce((acc: Record<string, number>, curr, i) => {
-            acc[i] = curr;
-            return acc;
-        }, {});
+    return Object.fromEntries(
+        input
+            .split(",")
+            .map(v => parseInt(v))
+            .entries()
+    );
 };
 
 const defaultIo = {

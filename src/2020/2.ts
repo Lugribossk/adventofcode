@@ -27,21 +27,19 @@ const isValidByCharacter = ({a, b, letter, password}: PasswordPolicy) => {
 
 const input = readInput(__filename)
     .split("\r\n")
-    .map(
-        (line): PasswordPolicy => {
-            const match = /(\d+)-(\d+) (\w): (\w+)/.exec(line);
-            if (!match) {
-                throw new Error(`Unable to parse '${line}'`);
-            }
-
-            return {
-                a: parseInt(match[1]),
-                b: parseInt(match[2]),
-                letter: match[3],
-                password: match[4]
-            };
+    .map((line): PasswordPolicy => {
+        const match = /(\d+)-(\d+) (\w): (\w+)/.exec(line);
+        if (!match) {
+            throw new Error(`Unable to parse '${line}'`);
         }
-    );
+
+        return {
+            a: parseInt(match[1]),
+            b: parseInt(match[2]),
+            letter: match[3],
+            password: match[4]
+        };
+    });
 
 console.log(input.filter(isValidByCount).length);
 
