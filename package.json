@@ -3,14 +3,14 @@
     "version": "0.0.1",
     "private": true,
     "engines": {
-        "node": ">= 14.15.0"
+        "node": ">= 14.18.1"
     },
     "scripts": {
         "prettier:fix": "prettier --write \"src/**/*.ts\"",
         "prettier:check": "prettier --check \"src/**/*.ts\"",
         "ts": "tsc --noEmit",
-        "test": "yarn run ts && yarn run lint && yarn run prettier:check && yarn run type-coverage",
-        "lint": "eslint --max-warnings=0 src"
+        "test": "npm run ts && npm run lint && npm run prettier:check && npx type-coverage",
+        "lint": "eslint --max-warnings=0 --report-unused-disable-directives --cache --cache-location ./target/.eslintcache src"
     },
     "typeCoverage": {
         "atLeast": 100,
@@ -18,17 +18,17 @@
         "ignoreCatch": true
     },
     "dependencies": {
-        "prettier": "2.3.2",
-        "ts-node": "10.0.0",
-        "typescript": "4.3.2"
+        "prettier": "2.4.1",
+        "ts-node": "10.4.0",
+        "typescript": "4.4.4"
     },
     "devDependencies": {
         "@types/node": "14.14.31",
-        "@types/prettier": "2.3.1",
-        "@typescript-eslint/eslint-plugin": "4.28.1",
-        "@typescript-eslint/parser": "4.28.1",
-        "eslint": "7.29.0",
+        "@types/prettier": "2.4.1",
+        "@typescript-eslint/eslint-plugin": "5.2.0",
+        "@typescript-eslint/parser": "5.2.0",
+        "eslint": "8.1.0",
         "eslint-config-prettier": "8.3.0",
-        "type-coverage": "2.18.0"
+        "type-coverage": "2.18.2"
     }
 }
