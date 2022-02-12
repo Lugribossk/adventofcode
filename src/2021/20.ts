@@ -98,7 +98,7 @@ const getInitial = (transformRow: string, dataRows: string[]): State => {
                 return line.split("").map((n, x) => [[x, y], n === "#" ? 1 : 0] as const);
             })
         ),
-        transform: (values: number[]) => valuestoNextValue.get(values.join(""))!
+        transform: (values: Val[]) => valuestoNextValue.get(values.join(""))!
     };
 };
 

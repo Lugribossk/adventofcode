@@ -66,7 +66,7 @@
             }
         ],
         "@typescript-eslint/no-empty-function": 0,
-        "@typescript-eslint/no-explicit-any": [2, {"fixToUnknown": true}],
+        "@typescript-eslint/no-explicit-any": 2,
         "@typescript-eslint/no-floating-promises": 0,
         "@typescript-eslint/no-non-null-assertion": 0,
         "@typescript-eslint/no-require-imports": 2,
