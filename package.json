@@ -7,11 +7,11 @@
         "node": ">= 16.13.2"
     },
     "scripts": {
+        "test": "npm run ts && npm run eslint && npm run prettier:check && npx type-coverage",
         "prettier:fix": "prettier --write \"src/**/*.ts\"",
         "prettier:check": "prettier --check \"src/**/*.ts\"",
         "ts": "tsc --noEmit",
-        "test": "npm run ts && npm run lint && npm run prettier:check && npx type-coverage",
-        "lint": "eslint --max-warnings=0 --report-unused-disable-directives --cache --cache-location ./target/.eslintcache src"
+        "eslint": "eslint --max-warnings=0 --report-unused-disable-directives --cache --cache-location ./target/.eslintcache src"
     },
     "typeCoverage": {
         "atLeast": 100,

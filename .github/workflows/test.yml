@@ -10,17 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Install Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
-          node-version: 14.x
-      - name: Cache dependencies
-        uses: actions/cache@v1
-        with:
-          path: node_modules
-          key: yarn-${{ hashFiles('yarn.lock') }}
+          node-version: 16.x
+          cache: npm
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
-      - name: TypeScript
-        run: yarn run ts
-      - name: Prettier
-        run: yarn run prettier:check
+        run: npm ci
+      - name: Tests
+        run: npm run test
