@@ -3,8 +3,12 @@
     "version": "0.0.1",
     "private": true,
     "engines": {
-        "npm": ">= 8.1.2",
-        "node": ">= 16.13.2"
+        "node": ">= 16.13.2",
+        "npm": ">= 8.1.2"
+    },
+    "volta": {
+        "node": "16.13.2",
+        "npm": "8.1.2"
     },
     "scripts": {
         "test": "npm run ts && npm run eslint && npm run prettier:check && npx type-coverage",

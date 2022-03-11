@@ -14,7 +14,17 @@ jobs:
         with:
           node-version: 16.x
           cache: npm
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          components: rustfmt, clippy
       - name: Install dependencies
         run: npm ci
       - name: Tests
         run: npm run test
+      - name: Rust format
+        run: cargo fmt --all -- --check
+      - name: Rust build
+        run: cargo build
+        env:
+          RUSTFLAGS: -D warnings
