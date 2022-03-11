@@ -1,6 +1,6 @@
 use std::fs;
 
-fn get_position(course: &Vec<(&str, i32)>) -> i32 {
+fn get_position(course: &[(&str, i32)]) -> i32 {
     let mut horizontal = 0;
     let mut depth = 0;
     for (direction, amount) in course {
@@ -15,7 +15,7 @@ fn get_position(course: &Vec<(&str, i32)>) -> i32 {
     horizontal * depth
 }
 
-fn get_position_aim(course: &Vec<(&str, i32)>) -> i32 {
+fn get_position_aim(course: &[(&str, i32)]) -> i32 {
     let mut horizontal = 0;
     let mut depth = 0;
     let mut aim = 0;
@@ -39,7 +39,7 @@ fn main() {
     let input: Vec<(&str, i32)> = input
         .split("\r\n")
         .map(|v| {
-            let x: Vec<&str> = v.split(" ").collect();
+            let x: Vec<&str> = v.split(' ').collect();
             (x[0], x[1].parse().unwrap())
         })
         .collect();

@@ -1,10 +1,10 @@
 use std::fs;
 
-fn count_increases(input: &Vec<i32>) -> i32 {
+fn count_increases(input: &[i32]) -> i32 {
     let mut count = 0;
     for (i, v) in input.iter().enumerate() {
         if i > 0 && input[i - 1] < *v {
-            count = count + 1;
+            count += 1;
         }
     }
     count

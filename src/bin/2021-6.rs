@@ -19,7 +19,7 @@ impl<T: Eq + Hash> CountingMap<T> {
     }
 }
 
-fn get_initial(items: &Vec<i32>) -> CountingMap<i32> {
+fn get_initial(items: &[i32]) -> CountingMap<i32> {
     let mut out = CountingMap::new();
 
     for i in items {
@@ -42,7 +42,7 @@ fn get_next(counts: CountingMap<i32>) -> CountingMap<i32> {
     out
 }
 
-fn simulate(initial: &Vec<i32>, days: i32) -> i64 {
+fn simulate(initial: &[i32], days: i32) -> i64 {
     let mut state = get_initial(initial);
 
     for _ in 1..=days {
@@ -54,7 +54,7 @@ fn simulate(initial: &Vec<i32>, days: i32) -> i64 {
 fn main() {
     let input: Vec<i32> = fs::read_to_string("src/2021/6.txt")
         .unwrap()
-        .split(",")
+        .split(',')
         .map(|v| v.parse().unwrap())
         .collect();
 
