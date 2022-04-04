@@ -25,7 +25,5 @@ jobs:
         run: npm run test
       - name: Rust format
         run: cargo fmt --all -- --check
-      - name: Rust build
-        run: cargo build
-        env:
-          RUSTFLAGS: -D warnings
+      - name: Rust Clippy
+        run: cargo clippy -- -D warnings
