@@ -1,30 +1,30 @@
-{
-    "root": true,
-    "env": {
-        "node": true,
-        "es2022": true
+module.exports = {
+    root: true,
+    env: {
+        node: true,
+        es2022: true
     },
-    "overrides": [
+    overrides: [
         {
-            "files": ["*.ts"],
-            "parser": "@typescript-eslint/parser",
-            "parserOptions": {
-                "ecmaVersion": 2022,
-                "sourceType": "module",
-                "ecmaFeatures": {
-                    "jsx": true
+            files: ["*.ts"],
+            parser: "@typescript-eslint/parser",
+            parserOptions: {
+                ecmaVersion: 2022,
+                sourceType: "module",
+                ecmaFeatures: {
+                    jsx: true
                 },
-                "project": "./tsconfig.json"
+                project: "./tsconfig.json"
             },
-            "plugins": ["@typescript-eslint"],
-            "extends": [
+            plugins: ["@typescript-eslint"],
+            extends: [
                 "eslint:recommended",
                 "plugin:@typescript-eslint/recommended",
                 "plugin:@typescript-eslint/recommended-requiring-type-checking",
                 "prettier"
             ],
-            "rules": {
-                "eqeqeq": 2,
+            rules: {
+                eqeqeq: 2,
                 "no-else-return": 2,
                 "@typescript-eslint/array-type": 2,
                 "@typescript-eslint/consistent-type-assertions": 2,
@@ -32,40 +32,40 @@
                 "@typescript-eslint/member-ordering": [
                     2,
                     {
-                        "default": ["static-field", "instance-field", "constructor", "instance-method"]
+                        default: ["static-field", "instance-field", "constructor", "instance-method"]
                     }
                 ],
                 "@typescript-eslint/naming-convention": [
                     2,
                     {
-                        "selector": "default",
-                        "format": ["camelCase"]
+                        selector: "default",
+                        format: ["camelCase"]
                     },
                     {
-                        "selector": "variable",
-                        "format": ["camelCase", "UPPER_CASE"]
+                        selector: "variable",
+                        format: ["camelCase", "UPPER_CASE"]
                     },
                     {
-                        "selector": "variable",
-                        "types": ["function"],
-                        "format": ["camelCase", "PascalCase"]
+                        selector: "variable",
+                        types: ["function"],
+                        format: ["camelCase", "PascalCase"]
                     },
                     {
-                        "selector": "variable",
-                        "modifiers": ["global", "const"],
-                        "types": ["boolean", "string", "number"],
-                        "format": ["UPPER_CASE"]
+                        selector: "variable",
+                        modifiers: ["global", "const"],
+                        types: ["boolean", "string", "number"],
+                        format: ["UPPER_CASE"]
                     },
                     {
-                        "selector": "typeLike",
-                        "format": ["PascalCase"]
+                        selector: "typeLike",
+                        format: ["PascalCase"]
                     },
                     {
-                        "selector": ["interface", "typeAlias"],
-                        "format": ["PascalCase"],
-                        "custom": {
-                            "regex": "^I[A-Z][a-z]",
-                            "match": false
+                        selector: ["interface", "typeAlias"],
+                        format: ["PascalCase"],
+                        custom: {
+                            regex: "^I[A-Z][a-z]",
+                            match: false
                         }
                     }
                 ],
@@ -85,11 +85,11 @@
                 "no-restricted-syntax": [
                     "error",
                     {
-                        "selector": "TSEnumDeclaration",
-                        "message": "Use union type instead"
+                        selector: "TSEnumDeclaration",
+                        message: "Use union type instead"
                     }
                 ]
             }
         }
     ]
-}
+};
