@@ -1,7 +1,8 @@
 import fs from "fs";
 import path from "path";
 import {performance} from "perf_hooks";
-import {TranspiledRunFunction, transpileAndSave} from "./assembunny/run";
+import type {TranspiledRunFunction} from "./assembunny/run";
+import {transpileAndSave} from "./assembunny/run";
 import {parse} from "./assembunny/parser";
 import {optimize} from "./assembunny/optimizer";
 import {runProgram} from "./assembunny/core";

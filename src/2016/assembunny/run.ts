@@ -1,7 +1,8 @@
 import fs from "fs";
 import path from "path";
 import {performance} from "perf_hooks";
-import {runProgram, State} from "./core";
+import type {State} from "./core";
+import {runProgram} from "./core";
 import {parse} from "./parser";
 import {transpile} from "./transpiler";
 import {optimize} from "./optimizer";

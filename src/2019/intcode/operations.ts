@@ -1,4 +1,5 @@
-import {HALT, Operation} from "./core";
+import type {Operation} from "./core";
+import {HALT} from "./core";
 import {getTarget, getValue} from "./parameters";
 
 const add: Operation = state => {

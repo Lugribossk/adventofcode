@@ -1,4 +1,5 @@
-import {Constant, Register, Instruction, State, isConstant, getArgValue} from "./core";
+import type {Constant, Register, Instruction, State} from "./core";
+import {isConstant, getArgValue} from "./core";
 
 /**
  * 'cpy x y' copies x (either an integer or the value of a register) into register y.

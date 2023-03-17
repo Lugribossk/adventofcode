@@ -1,4 +1,5 @@
-import {IO, HALT, Memory, State} from "./core";
+import type {IO, Memory, State} from "./core";
+import {HALT} from "./core";
 import {operations} from "./operations";
 
 const getOpcode = (value: number) => {

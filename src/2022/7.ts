@@ -57,7 +57,7 @@ const parseCreateFile = (line: string) => {
 
 const parsers = [parseDirOut, parseDirIn, parseLs, parseCreateDir, parseCreateFile];
 
-type Command = NonNullable<ReturnType<typeof parsers[number]>>;
+type Command = NonNullable<ReturnType<(typeof parsers)[number]>>;
 
 const parseLines = (lines: string[]): Command[] => {
     return lines.map(line => {

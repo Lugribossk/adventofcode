@@ -29,6 +29,7 @@ module.exports = {
                 "@typescript-eslint/array-type": 2,
                 "@typescript-eslint/consistent-type-assertions": 2,
                 "@typescript-eslint/consistent-type-definitions": [2, "interface"],
+                "@typescript-eslint/consistent-type-imports": "error",
                 "@typescript-eslint/member-ordering": [
                     2,
                     {

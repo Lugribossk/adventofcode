@@ -1,4 +1,5 @@
-import {Constant, getArgValue, Instruction, isConstant, Register, State} from "./core";
+import type {Constant, Instruction, Register, State} from "./core";
+import {getArgValue, isConstant} from "./core";
 import {Copy, Decrement, Increment, JumpNotZero, NoOp} from "./instructions";
 
 const replace = <T>(array: readonly T[], index: number, newItems: readonly T[]) => {
