@@ -1,6 +1,6 @@
 import {readInput} from "../utils";
 
-const input = readInput(__filename).split("");
+const input = readInput(import.meta.url).split("");
 
 const findUniquePosition = (chars: string[], numUnique: number) => {
     for (let i = numUnique - 1; i < chars.length; i++) {

@@ -22,7 +22,7 @@ const getJumpTargets = (program: readonly Instruction[]): Set<number> => {
 };
 
 const getToggleTargets = (program: readonly Instruction[]): Set<number> => {
-    const targets: Set<number> = new Set();
+    const targets = new Set<number>();
     program.forEach((inst, i) => {
         if (inst instanceof Toggle) {
             if (isConstant(inst.x)) {
@@ -97,7 +97,7 @@ const transpileInstruction = (inst: Instruction, index: number): string => {
 /**
  * Transpile the specified program into equivalent Javascript code.
  */
-export const transpile = (program: readonly Instruction[]): string => {
+export const transpile = async (program: readonly Instruction[]): Promise<string> => {
     const jumpTargets = getJumpTargets(program);
     const toggleTargets = getToggleTargets(program);
 
@@ -135,10 +135,10 @@ export const transpile = (program: readonly Instruction[]): string => {
                 }
             }
         };
-        module.exports = run;`;
+        export default run;`;
 
     return prettier.format(source, {
-        parser: "babel",
-        ...prettier.resolveConfig.sync(__dirname)
+        parser: "typescript",
+        ...(await prettier.resolveConfig(import.meta.url.slice(8)))
     });
 };

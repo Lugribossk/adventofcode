@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import {readInput} from "../utils";
 
-const input = readInput(__filename).split("\r\n");
+const input = readInput(import.meta.url).split("\r\n");
 
 const rock = 1;
 const paper = 2;

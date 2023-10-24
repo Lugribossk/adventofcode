@@ -1,9 +1,9 @@
 import {readInput} from "../utils";
 
-const input = readInput(__filename).split("\r\n\r\n") as [string, string];
+const input = readInput(import.meta.url).split("\r\n\r\n") as [string, string];
 
 const getInitialState = (): Map<number, string[]> => {
-    const initialState: Map<number, string[]> = new Map();
+    const initialState = new Map<number, string[]>();
 
     input[0]
         .split("\r\n")

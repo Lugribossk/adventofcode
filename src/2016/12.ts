@@ -1,8 +1,7 @@
-import path from "path";
 import {parseAndRun, transpileAndRun} from "./assembunny/run";
 
 (async () => {
-    const file = path.resolve(__dirname, "12.txt");
+    const file = `${import.meta.url.slice(8, -3)}.txt`;
 
     parseAndRun(file);
 

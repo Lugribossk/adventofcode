@@ -34,12 +34,12 @@ export const runProgram = async (initialMemory: Memory, io: IO = defaultIo): Pro
     while (state.memory[state.ip] !== HALT) {
         const value = state.memory[state.ip];
         if (value === undefined) {
-            throw new Error(`Invalid instruction pointer ${state.ip} on ${state.memory}.`);
+            throw new Error(`Invalid instruction pointer ${state.ip}.`);
         }
 
         const opcode = getOpcode(value);
         if (!operations.has(opcode)) {
-            throw new Error(`Unknown opcode ${opcode} at position ${state.ip} on ${state.memory}.`);
+            throw new Error(`Unknown opcode ${opcode} at position ${state.ip}.`);
         }
 
         state = await operations.get(opcode)!(state, io);

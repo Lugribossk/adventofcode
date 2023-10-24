@@ -8,28 +8,34 @@ module.exports = {
         {
             files: ["*.ts"],
             parser: "@typescript-eslint/parser",
+            plugins: ["@typescript-eslint"],
+            extends: [
+                "eslint:recommended",
+                "plugin:@typescript-eslint/recommended-type-checked",
+                "plugin:@typescript-eslint/stylistic-type-checked",
+                "prettier"
+            ],
             parserOptions: {
+                project: true,
                 ecmaVersion: 2022,
                 sourceType: "module",
                 ecmaFeatures: {
                     jsx: true
-                },
-                project: "./tsconfig.json"
+                }
             },
-            plugins: ["@typescript-eslint"],
-            extends: [
-                "eslint:recommended",
-                "plugin:@typescript-eslint/recommended",
-                "plugin:@typescript-eslint/recommended-requiring-type-checking",
-                "prettier"
-            ],
             rules: {
                 eqeqeq: 2,
                 "no-else-return": 2,
                 "@typescript-eslint/array-type": 2,
                 "@typescript-eslint/consistent-type-assertions": 2,
-                "@typescript-eslint/consistent-type-definitions": [2, "interface"],
-                "@typescript-eslint/consistent-type-imports": "error",
+                "@typescript-eslint/consistent-type-definitions": [2, "type"],
+                "@typescript-eslint/consistent-type-imports": [
+                    2,
+                    {
+                        prefer: "type-imports",
+                        fixStyle: "inline-type-imports"
+                    }
+                ],
                 "@typescript-eslint/member-ordering": [
                     2,
                     {
@@ -81,6 +87,7 @@ module.exports = {
                 "@typescript-eslint/prefer-regexp-exec": 0,
                 "@typescript-eslint/restrict-template-expressions": 0,
                 "@typescript-eslint/switch-exhaustiveness-check": 2,
+                "@typescript-eslint/prefer-nullish-coalescing": 0,
 
                 "no-constant-condition": 0,
                 "no-restricted-syntax": [

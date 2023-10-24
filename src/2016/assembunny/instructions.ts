@@ -115,7 +115,7 @@ export const toggleInstruction = (oldInst: Instruction): Instruction => {
         return oldInst.reverse;
     } else if (y !== undefined) {
         if (x === undefined) {
-            throw new Error(`Two-argument instruction missing first argument: ${oldInst}`);
+            throw new Error(`Two-argument instruction missing first argument.`);
         }
         if (oldInst instanceof JumpNotZero) {
             if (!isConstant(y)) {

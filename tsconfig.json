@@ -4,11 +4,11 @@
         "esModuleInterop": true,
         "exactOptionalPropertyTypes": true,
         "forceConsistentCasingInFileNames": true,
+        "incremental": true,
         "isolatedModules": true,
-        "jsx": "react",
         "lib": ["es2022"],
-        "module": "commonjs",
-        "moduleResolution": "node",
+        "module": "esnext",
+        "moduleResolution": "bundler",
         "noImplicitAny": true,
         "noImplicitOverride": true,
         "noImplicitReturns": true,
@@ -16,13 +16,11 @@
         "noPropertyAccessFromIndexSignature": true,
         "outDir": "./target",
         "resolveJsonModule": true,
+        "skipLibCheck": true,
         "sourceMap": true,
         "strict": true,
-        "target": "es2022"
+        "target": "es2022",
+        "verbatimModuleSyntax": true
     },
-    "include": ["src"],
-    "ts-node": {
-        "swc": true,
-        "transpileOnly": true
-    }
+    "include": ["src"]
 }

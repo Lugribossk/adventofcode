@@ -102,7 +102,7 @@ const runAmplifiersRepeatedly = async (memory: Memory, phases: number[]) => {
 };
 
 (async () => {
-    const input = readInput(__filename);
+    const input = readInput(import.meta.url);
 
     console.log(await maxSignal(input));
 })();

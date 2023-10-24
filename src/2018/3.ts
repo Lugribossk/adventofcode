@@ -1,13 +1,13 @@
-import fs from "fs";
+import fs from "node:fs";
 import {readInput} from "../utils";
 
-interface Claim {
+type Claim = {
     id: string;
     x: number;
     y: number;
     width: number;
     height: number;
-}
+};
 
 const parse = (line: string): Claim => {
     const match = /#(\d+) @ (\d+),(\d+): (\d+)x(\d+)/.exec(line);
@@ -46,7 +46,7 @@ const findNonOverlapping = (claims: Claim[], overlaps: string[][]) => {
     return ids;
 };
 
-const input = readInput(__filename)
+const input = readInput(import.meta.url)
     .split("\r\n")
     .map(line => parse(line));
 

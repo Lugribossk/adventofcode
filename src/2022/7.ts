@@ -1,25 +1,25 @@
 import {readInput} from "../utils";
 
-const input = readInput(__filename).split("\r\n");
+const input = readInput(import.meta.url).split("\r\n");
 
-interface Directory {
+type Directory = {
     name: string;
     parent?: Directory;
     directories: Directory[];
     files: File[];
     size: number;
-}
+};
 
-interface File {
+type File = {
     name: string;
     size: number;
-}
+};
 
-interface FileSystem {
+type FileSystem = {
     root: Directory;
     allDirectories: Directory[];
     allFiles: File[];
-}
+};
 
 const parseDirOut = (line: string) => {
     if (line === "$ cd ..") {

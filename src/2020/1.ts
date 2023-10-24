@@ -1,6 +1,6 @@
 import {readInput} from "../utils";
 
-const input = readInput(__filename)
+const input = readInput(import.meta.url)
     .split("\r\n")
     .map(v => parseInt(v))
     .sort((a, b) => a - b);

@@ -55,7 +55,7 @@ const stateToChars = ({screen, score}: {screen: Screen; score: number | undefine
 };
 
 (async () => {
-    const input = readInput(__filename);
+    const input = readInput(import.meta.url);
 
     const outputs: number[] = [];
     await runProgram(parse(input), {

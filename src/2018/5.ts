@@ -26,7 +26,7 @@ const withoutEachType = (units: string[]) => {
     });
 };
 
-const input = readInput(__filename).split("");
+const input = readInput(import.meta.url).split("");
 
 console.log(doReactions(input).length);
 

@@ -24,7 +24,7 @@ const run = (spreadsheet: number[][], method: (line: number[]) => number) => {
     return spreadsheet.map(method).reduce((prev, curr) => prev + curr, 0);
 };
 
-const input = readInput(__filename)
+const input = readInput(import.meta.url)
     .split("\r\n")
     .map(line => line.split("\t").map(n => parseInt(n)));
 

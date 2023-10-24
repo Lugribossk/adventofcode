@@ -6,7 +6,7 @@ const union: SetOperation = (a, b) => new Set([...a].concat([...b]));
 
 const intersection: SetOperation = (a, b) => new Set([...a].filter(item => b.has(item)));
 
-const input = readInput(__filename)
+const input = readInput(import.meta.url)
     .split("\r\n\r\n")
     .map(group => {
         return group.split("\r\n").map(line => {

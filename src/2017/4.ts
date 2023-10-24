@@ -35,7 +35,7 @@ const run = (phrases: string[][], filter: (input: string[]) => boolean) => {
     return phrases.filter(filter).length;
 };
 
-const input = readInput(__filename)
+const input = readInput(import.meta.url)
     .split("\r\n")
     .map(n => n.split(" "));
 

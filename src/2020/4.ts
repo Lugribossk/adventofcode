@@ -1,6 +1,6 @@
 import {readInput} from "../utils";
 
-interface Passport {
+type Passport = {
     byr?: string;
     iyr?: string;
     eyr?: string;
@@ -9,7 +9,7 @@ interface Passport {
     ecl?: string;
     pid?: string;
     cid?: string;
-}
+};
 
 const isValidByFields = ({byr, iyr, eyr, hgt, hcl, ecl, pid}: Passport) => {
     return byr && iyr && eyr && hgt && hcl && ecl && pid;
@@ -69,7 +69,7 @@ const isValidByValues = ({byr, iyr, eyr, hgt, hcl, ecl, pid}: Passport) => {
     );
 };
 
-const input = readInput(__filename)
+const input = readInput(import.meta.url)
     .split("\r\n\r\n")
     .map(group => {
         const matches = Array.from(group.matchAll(/(\w+:\S+)/g));

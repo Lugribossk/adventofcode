@@ -12,7 +12,7 @@ const totalFuel = (mass: number): number => {
 
 const sum = (masses: number[], calc: (f: number) => number) => masses.map(calc).reduce((p, c) => p + c, 0);
 
-const input = readInput(__filename)
+const input = readInput(import.meta.url)
     .split("\r\n")
     .map(v => parseInt(v));
 

@@ -1,9 +1,9 @@
-import fs from "fs";
+import fs from "node:fs";
 
-interface Coordinate {
+type Coordinate = {
     x: number;
     y: number;
-}
+};
 
 // See https://math.stackexchange.com/questions/1263541/how-do-i-find-the-coordinate-relationship-between-numbers-on-a-number-spiral/1263570
 // and https://stackoverflow.com/questions/11550153/determine-position-of-number-in-a-grid-of-numbers-centered-around-0-and-increasi

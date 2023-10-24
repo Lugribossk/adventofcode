@@ -1,11 +1,11 @@
 import {readInput} from "../utils";
 
-interface PasswordPolicy {
+type PasswordPolicy = {
     a: number;
     b: number;
     letter: string;
     password: string;
-}
+};
 
 const isValidByCount = ({a, b, letter, password}: PasswordPolicy) => {
     const counts = new Map<string, number>();
@@ -25,7 +25,7 @@ const isValidByCharacter = ({a, b, letter, password}: PasswordPolicy) => {
     );
 };
 
-const input = readInput(__filename)
+const input = readInput(import.meta.url)
     .split("\r\n")
     .map((line): PasswordPolicy => {
         const match = /(\d+)-(\d+) (\w): (\w+)/.exec(line);

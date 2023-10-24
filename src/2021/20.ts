@@ -1,6 +1,6 @@
 import {readInput} from "../utils";
 
-const input = readInput(__filename).split("\r\n");
+const input = readInput(import.meta.url).split("\r\n");
 
 class CoordinateMap<T> {
     private readonly map: Map<string, T>;
@@ -76,11 +76,11 @@ class CoordinateMap<T> {
 
 type Val = 0 | 1;
 
-interface State {
+type State = {
     empty: Val;
     values: CoordinateMap<Val>;
     transform: (v: [Val, Val, Val, Val, Val, Val, Val, Val, Val]) => Val;
-}
+};
 
 const getInitial = (transformRow: string, dataRows: string[]): State => {
     const valuestoNextValue = new Map(

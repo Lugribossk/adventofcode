@@ -6,7 +6,7 @@ const sum = (data: number[], offset: (length: number) => number) => {
         .reduce((prev, current) => prev + current, 0);
 };
 
-const input = readInput(__filename)
+const input = readInput(import.meta.url)
     .split("")
     .map(char => parseInt(char));
 

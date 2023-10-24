@@ -1,6 +1,6 @@
 import {readInput} from "../utils";
 
-const input = readInput(__filename)
+const input = readInput(import.meta.url)
     .split("\r\n")
     .map(line => {
         const row = parseInt(line.slice(0, 7).replace(/F/g, "0").replace(/B/g, "1"), 2);

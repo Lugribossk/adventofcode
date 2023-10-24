@@ -7,17 +7,17 @@ export type Constant = number;
 
 export type Register = "a" | "b" | "c" | "d";
 
-export interface Instruction {
+export type Instruction = {
     readonly x?: Constant | Register;
     readonly y?: Constant | Register;
     execute(state: State, output: (n: number) => void): State;
-}
+};
 
-export interface State {
+export type State = {
     readonly pc: number;
     readonly registers: {readonly [key in Register]: number};
     readonly program: readonly Instruction[];
-}
+};
 
 export const isConstant = (arg: Constant | Register): arg is Constant => typeof arg === "number";
 

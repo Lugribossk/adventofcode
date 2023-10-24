@@ -1,6 +1,5 @@
-import fs from "fs";
-import path from "path";
-import {performance} from "perf_hooks";
+import fs from "node:fs";
+import {performance} from "node:perf_hooks";
 import type {TranspiledRunFunction} from "./assembunny/run";
 import {transpileAndSave} from "./assembunny/run";
 import {parse} from "./assembunny/parser";
@@ -52,14 +51,14 @@ const findWithRun = (file: string) => {
 };
 
 const findWithTranspile = async (file: string) => {
-    const jsModule = transpileAndSave(file);
-    const {default: run} = (await import(jsModule)) as {default: TranspiledRunFunction};
+    const jsModule = await transpileAndSave(file);
+    const {default: run} = (await import(`file://${jsModule}`)) as {default: TranspiledRunFunction};
 
     findAlternatingSequence(run);
 };
 
 (async () => {
-    const file = path.resolve(__dirname, "25.txt");
+    const file = `${import.meta.url.slice(8, -3)}.txt`;
 
     findWithRun(file);
 

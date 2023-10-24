@@ -15,7 +15,7 @@ const firstTwice = (numbers: number[]) => {
     }
 };
 
-const input = readInput(__filename)
+const input = readInput(import.meta.url)
     .split("\r\n")
     .map(n => parseInt(n));
 

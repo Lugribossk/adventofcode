@@ -32,7 +32,7 @@ const find = async (program: string, targetOutput: number) => {
 };
 
 (async () => {
-    const input = readInput(__filename);
+    const input = readInput(import.meta.url);
 
     console.log(await run(input, 12, 2));
 

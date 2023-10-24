@@ -1,9 +1,9 @@
 import {readInput} from "../utils";
 
-interface State {
+type State = {
     acc: number;
     pc: number;
-}
+};
 
 abstract class Instruction {
     readonly arg: number;
@@ -43,7 +43,7 @@ class Nop extends Instruction {
     }
 }
 
-const input = readInput(__filename)
+const input = readInput(import.meta.url)
     .split("\r\n")
     .map((line): Instruction => {
         const [op, rawArg] = line.split(" ");

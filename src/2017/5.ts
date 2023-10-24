@@ -1,9 +1,9 @@
 import {readInput} from "../utils";
 
-interface State {
+type State = {
     offsets: number[];
     pc: number;
-}
+};
 
 const execute = ({offsets, pc}: State, calculateOffset: (current: number) => number) => {
     const newOffsets = offsets.slice(0);
@@ -32,7 +32,7 @@ const parse = (offsets: number[]): State => {
     };
 };
 
-const input = readInput(__filename)
+const input = readInput(import.meta.url)
     .split("\r\n")
     .map(n => parseInt(n));
 
