@@ -2,7 +2,7 @@ module.exports = {
     root: true,
     env: {
         node: true,
-        es2022: true
+        es2023: true
     },
     overrides: [
         {
@@ -17,7 +17,7 @@ module.exports = {
             ],
             parserOptions: {
                 project: true,
-                ecmaVersion: 2022,
+                ecmaVersion: 2023,
                 sourceType: "module",
                 ecmaFeatures: {
                     jsx: true

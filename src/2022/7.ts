@@ -149,7 +149,7 @@ const getSmallDirectories = (fs: FileSystem) => {
 
 const getDirectoryToDelete = (fs: FileSystem) => {
     const minRemoveSize = fs.root.size - 40000000;
-    return fs.allDirectories.sort((a, b) => a.size - b.size).filter(dir => dir.size >= minRemoveSize)[0].size;
+    return fs.allDirectories.sort((a, b) => a.size - b.size).find(dir => dir.size >= minRemoveSize)!.size;
 };
 
 console.log(getSmallDirectories(createFilesystem(parseLines(input))));

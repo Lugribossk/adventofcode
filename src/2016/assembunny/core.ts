@@ -15,7 +15,7 @@ export type Instruction = {
 
 export type State = {
     readonly pc: number;
-    readonly registers: {readonly [key in Register]: number};
+    readonly registers: Readonly<Record<Register, number>>;
     readonly program: readonly Instruction[];
 };
 

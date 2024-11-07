@@ -4,12 +4,12 @@
     "private": true,
     "type": "module",
     "engines": {
-        "node": ">= 20.9.0",
-        "npm": ">= 10.1.0"
+        "node": ">= 22.11.0",
+        "npm": ">= 10.9.0"
     },
     "volta": {
-        "node": "20.9.0",
-        "npm": "10.1.0"
+        "node": "22.11.0",
+        "npm": "10.9.0"
     },
     "scripts": {
         "test": "npm run ts && npm run eslint:check && npm run prettier:check && npx type-coverage",
@@ -27,16 +27,16 @@
         "cacheDirectory": "target/.type-coverage"
     },
     "dependencies": {
-        "prettier": "3.0.3",
-        "tsx": "3.14.0",
-        "typescript": "5.2.2"
+        "prettier": "3.3.3",
+        "tsx": "4.19.2",
+        "typescript": "5.6.3"
     },
     "devDependencies": {
-        "@types/node": "20.8.8",
-        "@typescript-eslint/eslint-plugin": "6.9.0",
-        "@typescript-eslint/parser": "6.9.0",
-        "eslint": "8.52.0",
-        "eslint-config-prettier": "9.0.0",
-        "type-coverage": "2.27.0"
+        "@types/node": "22.8.5",
+        "@typescript-eslint/eslint-plugin": "8.12.2",
+        "@typescript-eslint/parser": "8.12.2",
+        "eslint": "8.57.1",
+        "eslint-config-prettier": "9.1.0",
+        "type-coverage": "2.29.7"
     }
 }
