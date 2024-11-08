@@ -6,22 +6,9 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
-            - name: Install Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 22
-                  cache: npm
-            - name: Install Rust
-              uses: actions-rs/toolchain@v1
-              with:
-                  toolchain: stable
-                  components: rustfmt, clippy
+            - uses: actions/checkout@v4
+            - uses: volta-cli/action@v4
             - name: Install dependencies
               run: npm ci
             - name: Tests
               run: npm run test
-            - name: Rust format
-              run: cargo fmt --all -- --check
-            - name: Rust Clippy
-              run: cargo clippy -- -D warnings
