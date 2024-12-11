@@ -12,11 +12,11 @@
         "npm": "10.9.0"
     },
     "scripts": {
-        "test": "npm run ts && npm run eslint:check && npm run prettier:check && npx type-coverage",
+        "test": "npm run tsc && npm run eslint:check && npm run prettier:check && type-coverage",
         "fix": "npm run eslint:fix && npm run prettier:fix",
         "prettier:fix": "prettier --write --cache \"src/**/*.ts\" \".github/**/*.yml\" .eslintrc.cjs package.json tsconfig.json",
         "prettier:check": "prettier --check --cache \"src/**/*.ts\" \".github/**/*.yml\" .eslintrc.cjs package.json tsconfig.json",
-        "ts": "tsc --noEmit",
+        "tsc": "tsc --noEmit",
         "eslint:fix": "eslint --fix --cache --cache-location ./target/.eslintcache src",
         "eslint:check": "eslint --max-warnings=0 --report-unused-disable-directives --cache --cache-location ./target/.eslintcache src"
     },
@@ -32,7 +32,7 @@
         "typescript": "5.7.2"
     },
     "devDependencies": {
-        "@types/node": "22.8.5",
+        "@types/node": "22.10.1",
         "@typescript-eslint/eslint-plugin": "8.16.0",
         "@typescript-eslint/parser": "8.16.0",
         "eslint": "8.57.1",
